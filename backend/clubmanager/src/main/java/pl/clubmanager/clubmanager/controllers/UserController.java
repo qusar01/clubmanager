@@ -1,5 +1,7 @@
 package pl.clubmanager.clubmanager.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,10 +27,10 @@ public class UserController {
     }
 
     @PostMapping(path = "/users")
-    public UserDto createUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
         UserEntity userEntity = userMapper.mapFrom(user);
         UserEntity savedUserEntity = userService.createUser(userEntity);
-        return userMapper.mapTo(savedUserEntity);
+        return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/users")

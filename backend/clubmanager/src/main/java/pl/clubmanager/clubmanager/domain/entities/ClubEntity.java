@@ -20,9 +20,9 @@ public class ClubEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "club_id_seq")
     private Long id;
 
-    private int phoneNumber;
+    private String phoneNumber;
 
-    private int clubNip;
+    private String clubNip;
 
     private String clubName;
 

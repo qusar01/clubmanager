@@ -183,7 +183,7 @@ const Register = () => {
                 />
               </svg>
               <input
-                type="number"
+                type="text"
                 className="grow"
                 placeholder="Numeryczny NIP klubu"
                 value={clubNip}
