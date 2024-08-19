@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThemeChanger from "./ThemeChanger";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const expirationTime = localStorage.getItem("expiresIn");
+
+  useEffect(() => {
+    if (token && expirationTime && Date.now() < expirationTime) {
+      // token is valid
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("expiresIn");
+      navigate("/login");
+    }
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiresIn");
+    navigate("/login");
+  };
+
   return (
     <div className="navbar bg-base-100 border-solid border-b border-gray-200">
       <div className="navbar-start">
@@ -75,15 +95,13 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link
+        <button
           to="/login"
-          className="btn btn-secondary btn-sm btn-outline mr-2 h-10"
+          className="btn btn-secondary btn-sm mr-2 h-10"
+          onClick={logout}
         >
-          Zaloguj się
-        </Link>
-        <Link to="/register" className="btn btn-primary btn-sm h-10">
-          Załóż konto
-        </Link>
+          Wyloguj się
+        </button>
       </div>
     </div>
   );
