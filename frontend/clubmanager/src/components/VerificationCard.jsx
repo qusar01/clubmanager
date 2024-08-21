@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const VerificationCard = ({ submitVerify, loading }) => {
+const VerificationCard = ({ submitVerify, loading, errors, setErrors }) => {
   const [pin, setPin] = useState(["", "", "", "", "", ""]);
 
   const handlePinChange = (value, index) => {
@@ -28,6 +28,7 @@ const VerificationCard = ({ submitVerify, loading }) => {
         </p>
         <form
           onSubmit={handleSubmit}
+          noValidate
           className="flex flex-col items-center space-y-4 p-2 mx-auto w-full"
         >
           <div data-hs-pin-input className="flex space-x-2 mb-2">
@@ -39,10 +40,23 @@ const VerificationCard = ({ submitVerify, loading }) => {
                 data-hs-pin-input-item
                 value={value}
                 onChange={(e) => handlePinChange(e.target.value, index)}
-                className="w-12 h-12 text-center text-2xl border border-gray-300 rounded bg-base-100"
+                className={`w-12 h-12 text-center text-2xl border ${
+                  errors.verificationCode ? "border-red-500" : "border-gray-300"
+                } rounded bg-base-100`}
+                onFocus={() =>
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    verificationCode: null,
+                  }))
+                }
               />
             ))}
           </div>
+          {errors.verificationCode && (
+            <span className="prose text-red-500 text-sm">
+              {errors.verificationCode}
+            </span>
+          )}
           <button
             type="submit"
             className="btn btn-primary w-48 content-center w-2/3"

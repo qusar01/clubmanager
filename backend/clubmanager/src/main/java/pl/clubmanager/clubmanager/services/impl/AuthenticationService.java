@@ -9,6 +9,9 @@ import pl.clubmanager.clubmanager.domain.dto.LoginUserDto;
 import pl.clubmanager.clubmanager.domain.dto.RegisterUserDto;
 import pl.clubmanager.clubmanager.domain.dto.VerifyUserDto;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
+import pl.clubmanager.clubmanager.exceptions.InvalidEmailException;
+import pl.clubmanager.clubmanager.exceptions.InvalidPasswordException;
+import pl.clubmanager.clubmanager.exceptions.InvalidVerificationCodeException;
 import pl.clubmanager.clubmanager.repositories.UserRepository;
 
 import java.util.Optional;
@@ -37,6 +40,11 @@ public class AuthenticationService {
     }
 
     public UserEntity signup(RegisterUserDto registerUserDto) {
+        userRepository.findByEmail(registerUserDto.getEmail())
+                .ifPresent(user -> {
+                    throw new InvalidEmailException("Użytkownik o podanym adresie email już istnieje");
+                });
+
         UserEntity user = UserEntity.builder()
                 .firstName(registerUserDto.getFirstName())
                 .lastName(registerUserDto.getLastName())
@@ -51,11 +59,16 @@ public class AuthenticationService {
 
     public UserEntity authenticate(LoginUserDto loginUserDto) {
         UserEntity user = userRepository.findByEmail(loginUserDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new InvalidEmailException("Użytkownik o podanym adresie email nie istnieje"));
 
         if(!user.isEnabled()) {
-            throw new RuntimeException("User not verified");
+            throw new InvalidEmailException("Użytownik nie jest zweryfikowany");
         }
+
+        if(!passwordEncoder.matches(loginUserDto.getPassword(), user.getPassword())) {
+            throw new InvalidPasswordException("Niepoprawne hasło");
+        }
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUserDto.getEmail(),
@@ -73,7 +86,7 @@ public class AuthenticationService {
                 user.setVerificationCode(null);
                 userRepository.save(user);
             } else {
-                throw new RuntimeException("Invalid verification code");
+                throw new InvalidVerificationCodeException("Niepoprawny kod weryfikacyjny");
             }
         } else {
             throw new RuntimeException("User not found");

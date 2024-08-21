@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const SignInCard = ({ submitLogin }) => {
+const SignInCard = ({ submitLogin, loading, errors, setErrors }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     submitLogin(e, {
       email,
       password,
     });
+    console.log(errors);
   };
 
   return (
@@ -31,8 +32,16 @@ const SignInCard = ({ submitLogin }) => {
         <p className="prose text-center pointer-events-none mb-2">
           Zaloguj się
         </p>
-        <form onSubmit={handleSubmit} className="space-y-4 p-2 mx-auto w-full">
-          <label className="input input-bordered flex items-center gap-2">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="space-y-4 p-2 mx-auto w-full"
+        >
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors.email ? "border-red-500 text-red-500" : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -44,14 +53,25 @@ const SignInCard = ({ submitLogin }) => {
             </svg>
             <input
               type="email"
-              className="grow"
+              className={`grow ${errors.email ? "placeholder-red-500" : ""}`}
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="email"
+              onFocus={() =>
+                setErrors((prevErrors) => ({ ...prevErrors, email: null }))
+              }
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2">
+          {errors.email && (
+            <span className="prose text-red-500 text-sm">{errors.email}</span>
+          )}
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors.password ? "border-red-500 text-red-500" : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -66,13 +86,22 @@ const SignInCard = ({ submitLogin }) => {
             </svg>
             <input
               type="password"
-              className="grow"
+              className={`grow ${errors.password ? "placeholder-red-500" : ""}`}
               placeholder="Hasło"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="off"
+              onFocus={() =>
+                setErrors((prevErrors) => ({ ...prevErrors, password: null }))
+              }
             />
           </label>
+          {errors.password && (
+            <span className="prose text-red-500 text-sm">
+              {errors.password}
+            </span>
+          )}
           <p className="prose text-center mb-2 text-sm">
             <Link to="/" className="text-blue-500 text-sm">
               Zresetuj hasło
@@ -82,7 +111,11 @@ const SignInCard = ({ submitLogin }) => {
             type="submit"
             className="btn btn-primary w-48 content-center w-full"
           >
-            Zaloguj
+            {loading ? (
+              <span className="loading loading-spinner"></span>
+            ) : (
+              <span>Zaloguj</span>
+            )}
           </button>
         </form>
         <p className="prose text-center mb-2 text-sm">

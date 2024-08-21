@@ -1,6 +1,6 @@
 package pl.clubmanager.clubmanager.domain.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VerifyUserDto {
+public class RegisterOwnerDto {
 
-    private String email;
+    @Valid
+    private RegisterUserDto registerUserDto;
 
-    private String verificationCode;
+    @Valid
+    private ClubDto clubDto;
 }

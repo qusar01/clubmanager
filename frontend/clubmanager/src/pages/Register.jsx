@@ -7,10 +7,11 @@ import SignUpCard from "../components/SignUpCard";
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [verify, setVerify] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
   const submitRegister = async (
     e,
@@ -18,6 +19,7 @@ const Register = () => {
   ) => {
     e.preventDefault();
     setLoading(true);
+    setErrors({});
 
     const newUser = {
       firstName,
@@ -32,14 +34,14 @@ const Register = () => {
       clubName,
     };
 
+    const newOwner = {
+      registerUserDto: newUser,
+      clubDto: newClub,
+    };
+
+    console.log(newOwner);
     try {
-      const userRes = await axios.post(`/api/auth/signup`, newUser);
-      newClub["owner"] = userRes.data;
-      console.log("klub: ", newClub);
-
-      const clubRes = await axios.post(`/api/clubs`, newClub);
-      console.log("odp: ", clubRes.data);
-
+      const registerRes = await axios.post(`/api/auth/signup`, newOwner);
       setEmail(email);
       setPassword(password);
       setVerify(true);
@@ -47,11 +49,13 @@ const Register = () => {
     } catch (error) {
       console.error("Error during signing up: ", error);
       setLoading(false);
+      setErrors(error.response.data);
     }
   };
 
   const submitVerify = async (e, { pin }) => {
     e.preventDefault();
+    setErrors({});
     setLoading(true);
     const verificationCode = pin.join("");
 
@@ -65,10 +69,12 @@ const Register = () => {
     try {
       const verRes = await axios.post(`/api/auth/verify`, newVerification);
       console.log(verRes.response);
+      await loginAfterSigningUp(e);
     } catch (error) {
       console.error("Error during verification process: ", error);
+      setErrors(error.response.data);
+      setLoading(false);
     }
-    loginAfterSigningUp(e);
   };
 
   const loginAfterSigningUp = async (e) => {
@@ -95,11 +101,21 @@ const Register = () => {
   };
 
   return (
-    <section className="bg-base-200 flex items-center justify-center min-h-screen">
+    <section className="bg-base-200 flex items-center justify-center min-h-screen min-w-screen">
       {verify ? (
-        <VerificationCard submitVerify={submitVerify} loading={loading} />
+        <VerificationCard
+          submitVerify={submitVerify}
+          loading={loading}
+          errors={errors}
+          setErrors={setErrors}
+        />
       ) : (
-        <SignUpCard submitRegister={submitRegister} loading={loading} />
+        <SignUpCard
+          submitRegister={submitRegister}
+          loading={loading}
+          errors={errors}
+          setErrors={setErrors}
+        />
       )}
     </section>
   );

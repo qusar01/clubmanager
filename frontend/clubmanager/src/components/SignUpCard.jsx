@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const SignUpCard = ({ submitRegister, loading }) => {
+const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -9,6 +9,25 @@ const SignUpCard = ({ submitRegister, loading }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [clubNip, setClubNip] = useState("");
   const [clubName, setClubName] = useState("");
+
+  const onFocusUser = (field) =>
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      const errorKey = `registerUserDto.${field}`;
+      delete newErrors[errorKey];
+      newErrors["email"] = null;
+      newErrors["phoneNumber"] = null;
+      newErrors["clubNip"] = null;
+      return newErrors;
+    });
+
+  const onFocusClub = (field) =>
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      const errorKey = `clubDto.${field}`;
+      delete newErrors[errorKey];
+      return newErrors;
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,7 +43,7 @@ const SignUpCard = ({ submitRegister, loading }) => {
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl">
+    <div className="card bg-base-100 shadow-2xl w-full max-w-96 xl:max-w-[600px]">
       <div className="card-body items-center">
         <div className="btn btn-ghost text-xl hover:bg-transparent w-full pointer-events-none">
           Club Manager
@@ -41,47 +60,96 @@ const SignUpCard = ({ submitRegister, loading }) => {
         <p className="prose text-center pointer-events-none mb-2">
           Zarejestruj klub w systemie
         </p>
-        <form onSubmit={handleSubmit} className="space-y-4 p-2 mx-auto w-full">
-          <p className="prose mb-2 text-sm">Dane użytkownika</p>
-          <div className="flex flex-col space-y-4 xl:flex-row xl:space-x-2 xl:space-y-0">
-            <label className="input input-bordered flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="h-4 w-4 opacity-70"
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="space-y-4 p-2 mx-4 w-full"
+        >
+          <p className="prose mb-2 text-sm">Dane właściciela</p>
+          <div className="flex flex-col xl:flex-row space-y-4 xl:space-x-2 xl:space-y-0">
+            <div className="xl:w-1/2">
+              <label
+                className={`input input-bordered flex items-center gap-2 ${
+                  errors["registerUserDto.firstName"]
+                    ? "border-red-500 text-red-500"
+                    : ""
+                }`}
               >
-                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-              </svg>
-              <input
-                type="text"
-                className="grow"
-                placeholder="Imię"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-            </label>
-            <label className="input input-bordered flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="h-4 w-4 opacity-70"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70"
+                >
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                </svg>
+                <input
+                  type="text"
+                  className={`grow ${
+                    errors["registerUserDto.firstName"]
+                      ? "placeholder-red-500"
+                      : ""
+                  }`}
+                  placeholder="Imię"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  autoComplete="given-name"
+                  onFocus={() => onFocusUser("firstName")}
+                />
+              </label>
+              {errors["registerUserDto.firstName"] && (
+                <span className="prose text-red-500 text-sm">
+                  {errors["registerUserDto.firstName"]}
+                </span>
+              )}
+            </div>
+            <div className="xl:w-1/2">
+              <label
+                className={`input input-bordered flex items-center gap-2 ${
+                  errors["registerUserDto.lastName"]
+                    ? "border-red-500 text-red-500"
+                    : ""
+                }`}
               >
-                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-              </svg>
-              <input
-                type="text"
-                className="grow"
-                placeholder="Nazwisko"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-            </label>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70"
+                >
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                </svg>
+                <input
+                  type="text"
+                  className={`grow ${
+                    errors["registerUserDto.lastName"]
+                      ? "placeholder-red-500"
+                      : ""
+                  }`}
+                  placeholder="Nazwisko"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  autoComplete="family-name"
+                  onFocus={() => onFocusUser("lastName")}
+                />
+              </label>
+              {errors["registerUserDto.lastName"] && (
+                <span className="prose text-red-500 text-sm">
+                  {errors["registerUserDto.lastName"]}
+                </span>
+              )}
+            </div>
           </div>
-          <label className="input input-bordered flex items-center gap-2">
+
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors["registerUserDto.email"] || errors.email
+                ? "border-red-500 text-red-500"
+                : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -93,14 +161,33 @@ const SignUpCard = ({ submitRegister, loading }) => {
             </svg>
             <input
               type="email"
-              className="grow"
+              className={`grow ${
+                errors["registerUserDto.email"] || errors.email
+                  ? "placeholder-red-500"
+                  : ""
+              }`}
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              onFocus={() => onFocusUser("email")}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2">
+          {errors["registerUserDto.email"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["registerUserDto.email"]}
+            </span>
+          )}
+          {errors.email && (
+            <span className="prose text-red-500 text-sm">{errors.email}</span>
+          )}
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors["registerUserDto.password"]
+                ? "border-red-500 text-red-500"
+                : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -115,15 +202,29 @@ const SignUpCard = ({ submitRegister, loading }) => {
             </svg>
             <input
               type="password"
-              className="grow"
+              className={`grow ${
+                errors["registerUserDto.password"] ? "placeholder-red-500" : ""
+              }`}
               placeholder="Hasło"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              onFocus={() => onFocusUser("password")}
             />
           </label>
+          {errors["registerUserDto.password"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["registerUserDto.password"]}
+            </span>
+          )}
           <p className="prose mb-2 text-sm">Dane klubu</p>
-          <label className="input input-bordered flex items-center gap-2">
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors["clubDto.phoneNumber"] || errors.phoneNumber
+                ? "border-red-500 text-red-500"
+                : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -137,15 +238,37 @@ const SignUpCard = ({ submitRegister, loading }) => {
               />
             </svg>
             <input
-              type="tel"
-              className="grow"
+              type="number"
+              className={`grow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                errors["clubDto.phoneNumber"] || errors.phoneNumber
+                  ? "placeholder-red-500"
+                  : ""
+              }`}
               placeholder="Telefon kontaktowy"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               required
+              autoComplete="tel"
+              onFocus={() => onFocusClub("phoneNumber")}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2">
+          {errors["clubDto.phoneNumber"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["clubDto.phoneNumber"]}
+            </span>
+          )}
+          {errors.phoneNumber && (
+            <span className="prose text-red-500 text-sm">
+              {errors.phoneNumber}
+            </span>
+          )}
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors["clubDto.clubNip"] || errors.clubNip
+                ? "border-red-500 text-red-500"
+                : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -159,15 +282,32 @@ const SignUpCard = ({ submitRegister, loading }) => {
               />
             </svg>
             <input
-              type="text"
-              className="grow"
+              type="number"
+              className={`grow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                errors["clubDto.clubNip"] || errors.clubNip
+                  ? "placeholder-red-500"
+                  : ""
+              }`}
               placeholder="Numeryczny NIP klubu"
               value={clubNip}
               onChange={(e) => setClubNip(e.target.value)}
               required
+              onFocus={() => onFocusClub("clubNip")}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2">
+          {errors["clubDto.clubNip"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["clubDto.clubNip"]}
+            </span>
+          )}
+          {errors.clubNip && (
+            <span className="prose text-red-500 text-sm">{errors.clubNip}</span>
+          )}
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors["clubDto.clubName"] ? "border-red-500 text-red-500" : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -188,13 +328,21 @@ const SignUpCard = ({ submitRegister, loading }) => {
 
             <input
               type="text"
-              className="grow"
+              className={`grow ${
+                errors["clubDto.clubName"] ? "placeholder-red-500" : ""
+              }`}
               placeholder="Nazwa klubu"
               value={clubName}
               onChange={(e) => setClubName(e.target.value)}
               required
+              onFocus={() => onFocusClub("clubName")}
             />
           </label>
+          {errors["clubDto.clubName"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["clubDto.clubName"]}
+            </span>
+          )}
           <button
             type="submit"
             className="btn btn-primary w-48 content-center w-full"
