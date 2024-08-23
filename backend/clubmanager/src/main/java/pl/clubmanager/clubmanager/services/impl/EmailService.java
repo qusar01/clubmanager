@@ -24,4 +24,21 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendForgotPasswordEmail(String subject, String email) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(email);
+        helper.setSubject(subject);
+        helper.setText("""
+                <div>
+                    <h1>Resetowanie hasla</h1>
+                    <p>Witaj, aby zresetowac haslo kliknij w ponizszy link:</p>
+                    <a href="http://localhost:3000/set-password?email=%s">Resetuj haslo</a>
+                </div>
+                """.formatted(email), true);
+
+        mailSender.send(message);
+    }
+
 }

@@ -10,6 +10,8 @@ import AccessLayout from "./layouts/AccessLayout";
 import HomePage from "./pages/HomePage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import SetPasswordPage from "./pages/SetPasswordPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/" element={<AccessLayout />}>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/set-password" element={<SetPasswordPage />} />
         </Route>
       </>
     )

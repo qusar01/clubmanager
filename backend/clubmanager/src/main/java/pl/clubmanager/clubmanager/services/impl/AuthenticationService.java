@@ -107,4 +107,29 @@ public class AuthenticationService {
     private String generateVerificationCode() {
         return String.valueOf((int) (Math.random() * 900000) + 100000);
     }
+
+    public void forgotPassword(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new InvalidEmailException("Użytkownik o podanym adresie email nie istnieje"));
+
+        String subject = "Club Manager - Resetowanie hasła";
+        try {
+            emailService.sendForgotPasswordEmail(subject, email);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPassword(String email, String password) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new InvalidEmailException("Użytkownik o podanym adresie email nie istnieje"));
+
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        if (!password.matches(passwordPattern)) {
+            throw new InvalidPasswordException("Hasło musi zawierać co najmniej 8 znaków, w tym jedną dużą literę, jedną cyfrę oraz jeden znak specjalny");
+        }
+
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

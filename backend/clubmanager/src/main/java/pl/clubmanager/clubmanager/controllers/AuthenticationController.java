@@ -63,5 +63,17 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+        authenticationService.forgotPassword(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("set-password")
+    public ResponseEntity<?> setPassword(@RequestParam String email, @RequestHeader String password) {
+        authenticationService.setPassword(email, password);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
