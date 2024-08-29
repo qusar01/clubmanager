@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import SetPasswordCard from "../components/SetPasswordCard";
+import SetPasswordCard from "../components/auth/SetPasswordCard";
 import axios from "axios";
 
 const SetPasswordPage = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SignInCard from "../components/SignInCard";
+import SignInCard from "../components/auth/SignInCard";
 import axios from "axios";
 
 const Login = () => {

@@ -3,6 +3,7 @@ package pl.clubmanager.clubmanager.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,7 +46,7 @@ public class AuthenticationController {
         UserEntity user = authenticationService.signup(registerOwnerDto.getRegisterUserDto());
         ClubEntity clubEntity = clubMapper.mapFrom(registerOwnerDto.getClubDto());
         clubEntity.setOwner(user);
-        clubService.createClub(clubEntity);
+        clubService.save(clubEntity);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 

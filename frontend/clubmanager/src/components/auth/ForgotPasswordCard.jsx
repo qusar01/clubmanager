@@ -14,7 +14,7 @@ const ForgotPasswordCard = ({
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-96">
+    <div className="card bg-base-100 shadow-2xl w-96 animate-in fade-in zoom-in">
       <div className="card-body items-center">
         <div className="btn btn-ghost text-xl hover:bg-transparent w-full pointer-events-none">
           Club Manager

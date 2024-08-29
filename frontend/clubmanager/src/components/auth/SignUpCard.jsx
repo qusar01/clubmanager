@@ -43,7 +43,7 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-full max-w-96 xl:max-w-[600px]">
+    <div className="card bg-base-100 shadow-2xl w-full max-w-96 xl:max-w-[600px] animate-in fade-in zoom-in">
       <div className="card-body items-center">
         <div className="btn btn-ghost text-xl hover:bg-transparent w-full pointer-events-none">
           Club Manager

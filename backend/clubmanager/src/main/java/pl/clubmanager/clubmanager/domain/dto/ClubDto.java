@@ -19,6 +19,8 @@ public class ClubDto {
 
         @Valid
 
+        private Long id;
+
         @Size(min = 9, message = "Niepoprawny numer.")
         @Size(max = 9, message = "Niepoprawny numer.")
         private String phoneNumber;

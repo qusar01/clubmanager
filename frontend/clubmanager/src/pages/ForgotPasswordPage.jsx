@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import ForgotPasswordCard from "../components/ForgotPasswordCard";
+import ForgotPasswordCard from "../components/auth/ForgotPasswordCard";
 
 const ForgotPasswordPage = () => {
   const [errors, setErrors] = useState({});

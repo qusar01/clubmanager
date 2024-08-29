@@ -21,7 +21,7 @@ const VerificationCard = ({ submitVerify, loading, errors, setErrors }) => {
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+    <div className="card bg-base-100 shadow-2xl max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl animate-in fade-in zoom-in">
       <div className="card-body items-center">
         <p className="prose text-center pointer-events-none mb-2">
           Podaj kod weryfikujący

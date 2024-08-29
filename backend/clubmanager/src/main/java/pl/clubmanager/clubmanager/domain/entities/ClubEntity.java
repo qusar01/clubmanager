@@ -26,11 +26,13 @@ public class ClubEntity {
 
     private String clubName;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "owner_id")
     private UserEntity owner;
 
-    @JoinTable
+    @JoinTable(name = "club_users",
+            joinColumns = @JoinColumn(name = "club_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @OneToMany(cascade = CascadeType.ALL)
     private List<UserEntity> users;
 }

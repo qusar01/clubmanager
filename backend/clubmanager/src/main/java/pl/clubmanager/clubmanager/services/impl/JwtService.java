@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 
 import java.security.Key;
 import java.security.PrivateKey;
@@ -46,6 +47,9 @@ public class JwtService {
     }
 
     public String createToken(HashMap<String, Object> claims, UserDetails userDetails, long expirationTime) {
+        UserEntity user = (UserEntity) userDetails;
+        claims.put("role", user.getRole().name());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())

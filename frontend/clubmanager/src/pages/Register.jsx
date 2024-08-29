@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import VerificationCard from "../components/VerificationCard";
-import SignUpCard from "../components/SignUpCard";
+import VerificationCard from "../components/auth/VerificationCard";
+import SignUpCard from "../components/auth/SignUpCard";
 
 const Register = () => {
   const navigate = useNavigate();

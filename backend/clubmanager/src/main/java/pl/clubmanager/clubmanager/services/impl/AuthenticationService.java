@@ -9,6 +9,7 @@ import pl.clubmanager.clubmanager.domain.dto.LoginUserDto;
 import pl.clubmanager.clubmanager.domain.dto.RegisterUserDto;
 import pl.clubmanager.clubmanager.domain.dto.VerifyUserDto;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
+import pl.clubmanager.clubmanager.enums.Role;
 import pl.clubmanager.clubmanager.exceptions.InvalidEmailException;
 import pl.clubmanager.clubmanager.exceptions.InvalidPasswordException;
 import pl.clubmanager.clubmanager.exceptions.InvalidVerificationCodeException;
@@ -53,6 +54,7 @@ public class AuthenticationService {
                 .build();
         user.setVerificationCode(generateVerificationCode());
         user.setEnabled(false);
+        user.setRole(Role.OWNER);
         sendVerificationEmail(user);
         return userRepository.save(user);
     }
