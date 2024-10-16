@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import SetPasswordCard from "../components/auth/SetPasswordCard";
-import axios from "axios";
+import axiosInstance from "../config/axiosInstance";
 
 const SetPasswordPage = () => {
   const [errors, setErrors] = useState({});
@@ -17,7 +17,7 @@ const SetPasswordPage = () => {
     setErrors({});
 
     try {
-      await axios.put(`/api/auth/set-password?email=${email}`, null, {
+      await axiosInstance.put(`/api/auth/set-password?email=${email}`, null, {
         headers: {
           password: password,
         },

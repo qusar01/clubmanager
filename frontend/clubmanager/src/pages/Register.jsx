@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../config/axiosInstance";
 import VerificationCard from "../components/auth/VerificationCard";
 import SignUpCard from "../components/auth/SignUpCard";
 
@@ -41,7 +41,7 @@ const Register = () => {
 
     console.log(newOwner);
     try {
-      const registerRes = await axios.post(`/api/auth/signup`, newOwner);
+      const registerRes = await axiosInstance.post(`/auth/signup`, newOwner);
       setEmail(email);
       setPassword(password);
       setVerify(true);
@@ -67,7 +67,7 @@ const Register = () => {
     console.log(newVerification);
 
     try {
-      const verRes = await axios.post(`/api/auth/verify`, newVerification);
+      const verRes = await axiosInstance.post(`/auth/verify`, newVerification);
       console.log(verRes.response);
       await loginAfterSigningUp(e);
     } catch (error) {
@@ -88,7 +88,7 @@ const Register = () => {
     console.log("dane logowania: ", newLogin);
 
     try {
-      const loginRes = await axios.post(`/api/auth/login`, newLogin);
+      const loginRes = await axiosInstance.post(`/auth/login`, newLogin);
       localStorage.setItem("token", loginRes.data.token);
       const expirationTime = Date.now() + loginRes.data.expiresIn;
       localStorage.setItem("expiresIn", expirationTime);

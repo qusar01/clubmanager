@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SignInCard from "../components/auth/SignInCard";
-import axios from "axios";
+import axiosInstance from "../config/axiosInstance";
 
 const Login = () => {
   const [errors, setErrors] = useState({});
@@ -19,7 +19,7 @@ const Login = () => {
     console.log(newLogin);
 
     try {
-      const loginRes = await axios.post(`/api/auth/login`, newLogin);
+      const loginRes = await axiosInstance.post(`/auth/login`, newLogin);
       localStorage.setItem("token", loginRes.data.token);
       const expirationTime = Date.now() + loginRes.data.expiresIn;
       localStorage.setItem("expiresIn", expirationTime);

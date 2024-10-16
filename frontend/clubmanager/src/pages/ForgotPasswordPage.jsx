@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../config/axiosInstance";
 import ForgotPasswordCard from "../components/auth/ForgotPasswordCard";
 
 const ForgotPasswordPage = () => {
@@ -14,7 +14,7 @@ const ForgotPasswordPage = () => {
     setErrors({});
 
     try {
-      await axios.put(`/api/auth/forgot-password?email=${email}`);
+      await axiosInstance.put(`/api/auth/forgot-password?email=${email}`);
       setLoading(false);
       setResetPassword(true);
     } catch (error) {

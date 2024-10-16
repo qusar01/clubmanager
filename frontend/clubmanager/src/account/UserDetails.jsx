@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../config/axiosInstance";
 
 const UserDetails = () => {
-  const [name, setName] = useState("Jan");
-  const [surname, setSurname] = useState("Kowalski");
-  const [email, setEmail] = useState("jan.kowalski@example.com");
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
 
   const [tempValue, setTempValue] = useState("");
   const [editingField, setEditingField] = useState(null);
+
+  const fetchUser = async (e) => {
+    try {
+      const currUser = await axiosInstance.get(`/users/me`);
+      setName(currUser.data.firstName);
+      setLastname(currUser.data.lastName);
+      setEmail(currUser.data.email);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleEdit = (field) => {
     setEditingField(field);
@@ -17,8 +33,8 @@ const UserDetails = () => {
     switch (field) {
       case "name":
         return name;
-      case "surname":
-        return surname;
+      case "lastname":
+        return lastname;
       case "email":
         return email;
       default:
@@ -31,8 +47,8 @@ const UserDetails = () => {
       case "name":
         setName(tempValue);
         break;
-      case "surname":
-        setSurname(tempValue);
+      case "lastname":
+        setLastname(tempValue);
         break;
       case "email":
         setEmail(tempValue);
@@ -104,7 +120,7 @@ const UserDetails = () => {
   return (
     <div className="form-control w-full space-y-8">
       {renderField("Imię", name, "name")}
-      {renderField("Nazwisko", surname, "surname")}
+      {renderField("Nazwisko", lastname, "lastname")}
       {renderField("Email", email, "email")}
       <div className="join gap-1 justify-center">
         <button className="btn btn-sm btn-warning btn-outline">
