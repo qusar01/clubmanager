@@ -1,5 +1,5 @@
 import React from "react";
-import OwnerAccount from "../account/OwnerAccount";
+import OwnerAccount from "../components/account/OwnerAccount";
 import { useUserContext } from "../context/UserContext";
 
 const AccountPage = () => {

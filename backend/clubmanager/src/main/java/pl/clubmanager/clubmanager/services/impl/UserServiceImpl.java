@@ -44,7 +44,12 @@ public class UserServiceImpl implements UserService {
        return userRepository.findById(id).map(existingUser -> {
             Optional.ofNullable(userEntity.getFirstName()).ifPresent(existingUser::setFirstName);
             Optional.ofNullable(userEntity.getLastName()).ifPresent(existingUser::setLastName);
-            Optional.ofNullable(userEntity.getEmail()).ifPresent(existingUser::setEmail);
+            Optional.ofNullable(userEntity.getEmail()).ifPresent(newEmail -> {
+                userRepository.findByEmail(newEmail).ifPresent(user -> {
+                    throw new RuntimeException("Email jest już zajęty");
+                });
+                existingUser.setEmail(newEmail);
+            });
             return userRepository.save(existingUser);
         }).orElseThrow(() -> new RuntimeException("User not found"));
     }

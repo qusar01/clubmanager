@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../config/axiosInstance";
+import axiosInstance from "../../config/axiosInstance";
 
 const UserDetails = () => {
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [userId, setUserId] = useState("");
+  const [firstName, setName] = useState("");
+  const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
   const [tempValue, setTempValue] = useState("");
@@ -15,6 +16,7 @@ const UserDetails = () => {
       setName(currUser.data.firstName);
       setLastname(currUser.data.lastName);
       setEmail(currUser.data.email);
+      setUserId(currUser.data.id);
     } catch (error) {
       console.log(error);
     }
@@ -31,10 +33,10 @@ const UserDetails = () => {
 
   const getFieldValue = (field) => {
     switch (field) {
-      case "name":
-        return name;
-      case "lastname":
-        return lastname;
+      case "firstName":
+        return firstName;
+      case "lastName":
+        return lastName;
       case "email":
         return email;
       default:
@@ -42,15 +44,18 @@ const UserDetails = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async (e) => {
     switch (editingField) {
-      case "name":
+      case "firstName":
+        editField(e, "firstName", tempValue);
         setName(tempValue);
         break;
-      case "lastname":
+      case "lastName":
+        editField(e, "lastName", tempValue);
         setLastname(tempValue);
         break;
       case "email":
+        editField(e, "email", tempValue);
         setEmail(tempValue);
         break;
       default:
@@ -58,6 +63,22 @@ const UserDetails = () => {
     }
     setEditingField(null);
   };
+
+  const editField = async (e, field, value) => {
+    e.preventDefault();
+
+    const userDto = {
+      [field]: value
+    }
+
+    try {
+      const response = await axiosInstance.patch(`/users/${userId}`, userDto);
+      console.log("okok");
+    } catch(errorr) {
+      console.log(errorr);
+    }
+
+  }
 
   const handleCancel = () => {
     setEditingField(null);
@@ -119,8 +140,8 @@ const UserDetails = () => {
 
   return (
     <div className="form-control w-full space-y-8">
-      {renderField("Imię", name, "name")}
-      {renderField("Nazwisko", lastname, "lastname")}
+      {renderField("Imię", firstName, "firstName")}
+      {renderField("Nazwisko", lastName, "lastName")}
       {renderField("Email", email, "email")}
       <div className="join gap-1 justify-center">
         <button className="btn btn-sm btn-warning btn-outline">

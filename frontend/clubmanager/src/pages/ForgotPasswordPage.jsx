@@ -14,7 +14,7 @@ const ForgotPasswordPage = () => {
     setErrors({});
 
     try {
-      await axiosInstance.put(`/api/auth/forgot-password?email=${email}`);
+      await axiosInstance.put(`/auth/forgot-password?email=${email}`);
       setLoading(false);
       setResetPassword(true);
     } catch (error) {
