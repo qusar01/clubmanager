@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { Outlet } from "react-router-dom";
 
 const UserContext = createContext();
 

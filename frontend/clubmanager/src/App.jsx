@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SetPasswordPage from "./pages/SetPasswordPage";
+import AccountPage from "./pages/AccountPage";
 import { UserProvider } from "./context/UserContext";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/" element={<MainLayout />}>
           <Route element={<ProtectedRoutes />}>
             <Route index element={<HomePage />} />
+            <Route path="/account" element={<AccountPage />} />
           </Route>
         </Route>
 
