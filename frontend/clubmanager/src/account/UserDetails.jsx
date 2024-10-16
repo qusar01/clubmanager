@@ -1,88 +1,117 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const UserDetails = () => {
-  // Stan do zarządzania edycją
-  const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("Jan");
-  const [tempName, setTempName] = useState(name);
+  const [surname, setSurname] = useState("Kowalski");
+  const [email, setEmail] = useState("jan.kowalski@example.com");
 
-  // Funkcja do rozpoczęcia edycji
-  const handleEdit = () => {
-    setIsEditing(true);
-    setTempName(name); // Zapisuje aktualne imię w tymczasowym stanie
+  const [tempValue, setTempValue] = useState("");
+  const [editingField, setEditingField] = useState(null);
+
+  const handleEdit = (field) => {
+    setEditingField(field);
+    setTempValue(getFieldValue(field));
   };
 
-  // Funkcja do zatwierdzenia edycji
+  const getFieldValue = (field) => {
+    switch (field) {
+      case "name":
+        return name;
+      case "surname":
+        return surname;
+      case "email":
+        return email;
+      default:
+        return "";
+    }
+  };
+
   const handleSave = () => {
-    setName(tempName);
-    setIsEditing(false);
+    switch (editingField) {
+      case "name":
+        setName(tempValue);
+        break;
+      case "surname":
+        setSurname(tempValue);
+        break;
+      case "email":
+        setEmail(tempValue);
+        break;
+      default:
+        break;
+    }
+    setEditingField(null);
   };
 
-  // Funkcja do anulowania edycji
   const handleCancel = () => {
-    setIsEditing(false);
-    setTempName(name); // Przywraca stare imię
+    setEditingField(null);
+    setTempValue("");
   };
+
+  const renderField = (label, value, field) => (
+    <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center">
+        <label className="label">
+          <span className="label-text font-bold text-xs lg:text-base">
+            {label}:
+          </span>
+        </label>
+      </div>
+      {editingField === field ? (
+        <>
+          <input
+            type="text"
+            className="input input-bordered w-3/4 text-xs lg:text-base"
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+          />
+          <div className="flex gap-1">
+            <button
+              onClick={handleSave}
+              className="btn btn-sm btn-outline btn-success w-16 text-xs"
+            >
+              Zatwierdź
+            </button>
+            <button
+              onClick={handleCancel}
+              className="btn btn-sm btn-outline btn-error w-16 text-xs"
+            >
+              Odrzuć
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <input
+            type="text"
+            className="input input-bordered w-3/4 text-xs lg:text-base"
+            disabled
+            value={value}
+            onChange={(e) => setTempValue(e.target.value)}
+          />
+
+          <button
+            onClick={() => handleEdit(field)}
+            className="btn btn-sm btn-outline w-16"
+          >
+            Edytuj
+          </button>
+        </>
+      )}
+    </div>
+  );
 
   return (
-    <div className="form-control w-full">
-      {/* Jeśli nie edytujemy, wyświetlamy nazwę i przycisk edycji */}
-      {!isEditing ? (
-        <div className="flex items-center justify-center gap-4">
-          <label className="label">
-            <span className="label-text font-bold">Imię:</span>
-          </label>
-          <span>{name}</span>
-          <button onClick={handleEdit} className="btn btn-sm btn-outline">
-            Edytuj
-          </button>
-        </div>
-      ) : (
-        // Jeśli edytujemy, wyświetlamy pole input oraz przyciski zapisu i anulowania
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            className="input input-bordered w-full"
-            value={tempName}
-            onChange={(e) => setTempName(e.target.value)}
-          />
-          <button onClick={handleSave} className="btn btn-sm btn-success">
-            Zatwierdź
-          </button>
-          <button onClick={handleCancel} className="btn btn-sm btn-error">
-            Odrzuć
-          </button>
-        </div>
-      )}
-      {/* Jeśli nie edytujemy, wyświetlamy nazwę i przycisk edycji */}
-      {!isEditing ? (
-        <div className="flex items-center justify-center gap-4">
-          <label className="label">
-            <span className="label-text font-bold">Imię:</span>
-          </label>
-          <span>{name}</span>
-          <button onClick={handleEdit} className="btn btn-sm btn-outline">
-            Edytuj
-          </button>
-        </div>
-      ) : (
-        // Jeśli edytujemy, wyświetlamy pole input oraz przyciski zapisu i anulowania
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            className="input input-bordered w-full"
-            value={tempName}
-            onChange={(e) => setTempName(e.target.value)}
-          />
-          <button onClick={handleSave} className="btn btn-sm btn-success">
-            Zatwierdź
-          </button>
-          <button onClick={handleCancel} className="btn btn-sm btn-error">
-            Odrzuć
-          </button>
-        </div>
-      )}
+    <div className="form-control w-full space-y-8">
+      {renderField("Imię", name, "name")}
+      {renderField("Nazwisko", surname, "surname")}
+      {renderField("Email", email, "email")}
+      <div className="join gap-1 justify-center">
+        <button className="btn btn-sm btn-warning btn-outline">
+          Zmień hasło
+        </button>
+        <button className="btn btn-sm btn-error btn-outline">Usuń konto</button>
+      </div>
     </div>
   );
 };

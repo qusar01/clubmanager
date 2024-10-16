@@ -7,15 +7,15 @@ const OwnerAccount = () => {
   const [activeButton, setActiveButton] = useState("account");
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-96 md:w-1/2 animate-in fade-in zoom-in">
-      <div className="card-body items-center justify-center">
-        <div className="text-xl md:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
-          <span className="">Konto</span>
+    <div className="card bg-base-100 shadow-2xl w-96 md:w-auto animate-in fade-in zoom-in">
+      <div className="card-body items-center justify-center mx-auto gap-8">
+        <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
+          <span className="">Moje konto</span>
         </div>
         {activeButton === "account" ? <UserDetails /> : <ClubDetails />}
         <div className="join">
           <button
-            className={`join-item btn ${
+            className={`join-item btn w-28 ${
               activeButton === "account" ? "btn-active" : ""
             }`}
             onClick={() => setActiveButton("account")}
@@ -23,7 +23,7 @@ const OwnerAccount = () => {
             Moje konto
           </button>
           <button
-            className={`join-item btn ${
+            className={`join-item btn w-28 ${
               activeButton === "club" ? "btn-active" : ""
             }`}
             onClick={() => setActiveButton("club")}
