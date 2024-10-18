@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
+import Toast from "../Toast";
 
 const UserDetails = () => {
   const [userId, setUserId] = useState("");
@@ -9,6 +10,12 @@ const UserDetails = () => {
 
   const [tempValue, setTempValue] = useState("");
   const [editingField, setEditingField] = useState(null);
+
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const handleShowSuccess = () => setShowSuccess(true);
+  const handleShowError = () => setShowError(true);
 
   const fetchUser = async (e) => {
     try {
@@ -45,47 +52,53 @@ const UserDetails = () => {
   };
 
   const handleSave = async (e) => {
-    switch (editingField) {
-      case "firstName":
-        editField(e, "firstName", tempValue);
-        setName(tempValue);
-        break;
-      case "lastName":
-        editField(e, "lastName", tempValue);
-        setLastname(tempValue);
-        break;
-      case "email":
-        editField(e, "email", tempValue);
-        setEmail(tempValue);
-        break;
-      default:
-        break;
+    try {
+      switch (editingField) {
+        case "firstName":
+          await editField(e, "firstName", tempValue);
+          setName(tempValue);
+          break;
+        case "lastName":
+          await editField(e, "lastName", tempValue);
+          setLastname(tempValue);
+          break;
+        case "email":
+          await editField(e, "email", tempValue);
+          setEmail(tempValue);
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+      setShowSuccess(false);
+      setShowError(false);
+      handleShowError();
+    } finally {
+      setEditingField(null);
     }
-    setEditingField(null);
   };
 
   const editField = async (e, field, value) => {
     e.preventDefault();
 
     const userDto = {
-      [field]: value
-    }
+      [field]: value,
+    };
 
-    try {
-      const response = await axiosInstance.patch(`/users/${userId}`, userDto);
-      console.log("okok");
-    } catch(errorr) {
-      console.log(errorr);
-    }
-
-  }
+    const response = await axiosInstance.patch(`/users/${userId}`, userDto);
+    console.log("okok");
+    setShowSuccess(false);
+    setShowError(false);
+    handleShowSuccess();
+  };
 
   const handleCancel = () => {
     setEditingField(null);
     setTempValue("");
   };
 
-  const renderField = (label, value, field) => (
+  const renderField = (label, value, field, hidden) => (
     <div className="flex items-center justify-center gap-4">
       <div className="flex items-center">
         <label className="label">
@@ -129,7 +142,9 @@ const UserDetails = () => {
 
           <button
             onClick={() => handleEdit(field)}
-            className="btn btn-sm btn-outline w-16"
+            className={`btn btn-sm btn-outline w-16 ${
+              hidden ? "" : "btn-disabled"
+            }`}
           >
             Edytuj
           </button>
@@ -140,15 +155,29 @@ const UserDetails = () => {
 
   return (
     <div className="form-control w-full space-y-8">
-      {renderField("Imię", firstName, "firstName")}
-      {renderField("Nazwisko", lastName, "lastName")}
-      {renderField("Email", email, "email")}
+      {renderField("Imię", firstName, "firstName", true)}
+      {renderField("Nazwisko", lastName, "lastName", true)}
+      {renderField("Email", email, "email", false)}
       <div className="join gap-1 justify-center">
         <button className="btn btn-sm btn-warning btn-outline">
           Zmień hasło
         </button>
         <button className="btn btn-sm btn-error btn-outline">Usuń konto</button>
       </div>
+      {showSuccess && (
+        <Toast
+          message="Pomyślnie zmieniono dane."
+          type="success"
+          onClose={() => setShowSuccess(false)}
+        />
+      )}
+      {showError && (
+        <Toast
+          message="Niepoprawne dane."
+          type="error"
+          onClose={() => setShowError(false)}
+        />
+      )}
     </div>
   );
 };

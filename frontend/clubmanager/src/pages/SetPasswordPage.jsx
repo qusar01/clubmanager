@@ -17,7 +17,7 @@ const SetPasswordPage = () => {
     setErrors({});
 
     try {
-      await axiosInstance.put(`/api/auth/set-password?email=${email}`, null, {
+      await axiosInstance.put(`/auth/set-password?email=${email}`, null, {
         headers: {
           password: password,
         },
