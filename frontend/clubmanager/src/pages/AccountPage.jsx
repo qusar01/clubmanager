@@ -7,7 +7,7 @@ const AccountPage = () => {
 
   return (
     <section className="py-1 bg-base-200">
-      <section className="bg-base-200 flex justify-center my-32">
+      <section className="bg-base-200 flex justify-center my-64">
         {loading ? <span className="loading loading-spinner mt-64"></span> : ""}
         {role === "ADMIN" && <AdminDashboard />}
         {role === "OWNER" && <OwnerAccount />}

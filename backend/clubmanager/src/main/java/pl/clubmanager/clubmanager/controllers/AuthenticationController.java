@@ -70,7 +70,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("set-password")
+    @PutMapping("/set-password")
     public ResponseEntity<?> setPassword(@RequestParam String email, @RequestHeader String password) {
         authenticationService.setPassword(email, password);
         return new ResponseEntity<>(HttpStatus.OK);

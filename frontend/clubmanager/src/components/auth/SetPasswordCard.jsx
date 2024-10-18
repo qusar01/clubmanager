@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SetPasswordCard = ({ submitSetPassword, loading, errors, setErrors }) => {
   const [password, setPassword] = useState("");
+  const token = localStorage.getItem("token");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +67,13 @@ const SetPasswordCard = ({ submitSetPassword, loading, errors, setErrors }) => {
             <span className="prose text-red-500 text-sm">
               {errors.password}
             </span>
+          )}
+          {token && (
+            <p className="prose text-center mb-2 text-sm">
+              <Link to="/account" className="text-blue-500 text-sm">
+                Wróć do ustawień konta
+              </Link>
+            </p>
           )}
           <button
             type="submit"

@@ -24,6 +24,8 @@ const SetPasswordPage = () => {
       });
       setLoading(false);
       setIsNewPassword(true);
+      localStorage.removeItem("token");
+      localStorage.removeItem("expiresIn");
     } catch (error) {
       console.error("Error during setting new password: ", error);
       setErrors(error.response.data);
@@ -52,7 +54,7 @@ const SetPasswordPage = () => {
             </p>
             <p className="prose text-center mb-2 text-sm">
               <Link to="/login" className="text-blue-500 text-sm">
-                Wróć do logowania
+                Logowanie
               </Link>
             </p>
           </div>

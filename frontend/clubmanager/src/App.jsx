@@ -15,6 +15,8 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SetPasswordPage from "./pages/SetPasswordPage";
 import AccountPage from "./pages/AccountPage";
 import { UserProvider } from "./context/UserContext";
+import ConditionalLayout from "./layouts/ConditionalLayout";
+import PublicRoutes from "./utils/PublicRoutes";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -28,9 +30,14 @@ const App = () => {
         </Route>
 
         <Route path="/" element={<AccessLayout />}>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route element={<PublicRoutes />}>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          </Route>
+        </Route>
+
+        <Route path="/" element={<ConditionalLayout />}>
           <Route path="/set-password" element={<SetPasswordPage />} />
         </Route>
       </>

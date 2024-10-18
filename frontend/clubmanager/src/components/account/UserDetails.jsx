@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import Toast from "../Toast";
 
@@ -159,9 +160,12 @@ const UserDetails = () => {
       {renderField("Nazwisko", lastName, "lastName", true)}
       {renderField("Email", email, "email", false)}
       <div className="join gap-1 justify-center">
-        <button className="btn btn-sm btn-warning btn-outline">
+        <Link
+          to={`/set-password?email=${email}`}
+          className="btn btn-sm btn-warning btn-outline"
+        >
           Zmień hasło
-        </button>
+        </Link>
         <button className="btn btn-sm btn-error btn-outline">Usuń konto</button>
       </div>
       {showSuccess && (
