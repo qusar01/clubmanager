@@ -1,6 +1,6 @@
 import React from "react";
 
-const DelClubModal = ({ del, loading }) => {
+const DelClubModal = ({ del, loading, role }) => {
   return (
     <div>
       <dialog id="del_club" className="modal">

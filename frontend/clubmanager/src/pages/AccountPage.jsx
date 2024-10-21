@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import OwnerAccount from "../components/account/OwnerAccount";
 import { useUserContext } from "../context/UserContext";
 import axiosInstance from "../config/axiosInstance";
+import Account from "../components/account/Account";
 
 const AccountPage = () => {
   const { role, loading } = useUserContext();
@@ -21,14 +21,15 @@ const AccountPage = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
   return (
     <section className="py-1 bg-base-200">
-      <section className="bg-base-200 flex justify-center my-52">
-        {loading ? <span className="loading loading-spinner mt-64"></span> : ""}
-        {role === "ADMIN" && <div></div>}
-        {role === "OWNER" && <OwnerAccount userId={userId} clubId={clubId} />}
-        {role === "COACH" && <CoachDashboard />}
-        {role === "COMPETITOR" && <CompetitorDashboard />}
+      <section className="bg-base-200 flex justify-center my-48">
+        {loading ? (
+          <span className="loading loading-spinner mt-64"></span>
+        ) : (
+          <Account userId={userId} clubId={clubId} role={role} />
+        )}
       </section>
     </section>
   );

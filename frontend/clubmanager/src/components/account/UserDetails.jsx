@@ -4,9 +4,9 @@ import axiosInstance from "../../config/axiosInstance";
 import Toast from "../Toast";
 import DelUserModal from "../modals/DelUserModal";
 
-const UserDetails = ({ userId }) => {
+const UserDetails = ({ userId, role }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [firstName, setName] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -28,6 +28,7 @@ const UserDetails = ({ userId }) => {
       setName(currUser.data.firstName);
       setLastname(currUser.data.lastName);
       setEmail(currUser.data.email);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +36,7 @@ const UserDetails = ({ userId }) => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [userId]);
 
   const handleEdit = (field) => {
     setEditingField(field);
@@ -179,7 +180,7 @@ const UserDetails = ({ userId }) => {
   return (
     <>
       <div className="form-control w-full space-y-6">
-        <DelUserModal del={deleteUser} loading={loading} />
+        <DelUserModal del={deleteUser} loading={loading} role={role} />
         {renderField("Imię", firstName, "firstName", true)}
         {renderField("Nazwisko", lastName, "lastName", true)}
         {renderField("Email", email, "email", false)}

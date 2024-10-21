@@ -4,7 +4,7 @@ import axiosInstance from "../../config/axiosInstance";
 import DelClubModal from "../modals/DelClubModal";
 import Toast from "../Toast";
 
-const ClubDetails = ({ clubId }) => {
+const ClubDetails = ({ clubId, role }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -180,16 +180,33 @@ const ClubDetails = ({ clubId }) => {
   return (
     <>
       <div className="form-control w-full space-y-6">
-        <DelClubModal del={deleteClub} loading={loading} />
-        {renderField("Nazwa klubu", clubName, "clubName", true)}
-        {renderField("Numer NIP", clubNip, "clubNip", true)}
-        {renderField("Numer telefonu", phoneNumber, "phoneNumber", true)}
+        <DelClubModal del={deleteClub} loading={loading} role={role} />
+        {renderField(
+          "Nazwa klubu",
+          clubName,
+          "clubName",
+          role === "OWNER" ? true : false
+        )}
+        {renderField(
+          "Numer NIP",
+          clubNip,
+          "clubNip",
+          role === "OWNER" ? true : false
+        )}
+        {renderField(
+          "Numer telefonu",
+          phoneNumber,
+          "phoneNumber",
+          role === "OWNER" ? true : false
+        )}
         <div className="join gap-x-1 justify-center">
           <button
             onClick={() => {
               document.getElementById("del_club").showModal();
             }}
-            className="btn btn-sm btn-error btn-outline"
+            className={`btn btn-sm btn-error btn-outline ${
+              role === "OWNER" ? "" : "btn-disabled"
+            }`}
           >
             Usuń klub
           </button>
