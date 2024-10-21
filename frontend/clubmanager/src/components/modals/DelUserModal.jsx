@@ -1,6 +1,6 @@
 import React from "react";
 
-const DelUserModal = ({ del }) => {
+const DelUserModal = ({ del, loading }) => {
   return (
     <div>
       <dialog id="del_user" className="modal">
@@ -11,11 +11,15 @@ const DelUserModal = ({ del }) => {
             powiązanych z nim członków.
           </p>
           <div className="modal-action">
-            <form method="dialog">
+            {loading ? (
+              <button className="btn btn-error">
+                <span className="loading loading-spinner"></span>
+              </button>
+            ) : (
               <button onClick={del} className="btn btn-error">
                 Usuń
               </button>
-            </form>
+            )}
 
             <form method="dialog">
               <button className="btn">Anuluj</button>

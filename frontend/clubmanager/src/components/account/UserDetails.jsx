@@ -6,6 +6,7 @@ import DelUserModal from "../modals/DelUserModal";
 
 const UserDetails = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
   const [firstName, setName] = useState("");
   const [lastName, setLastname] = useState("");
@@ -160,13 +161,18 @@ const UserDetails = () => {
 
   const deleteUser = async (e) => {
     try {
-      const response = await axiosInstance.delete(`/users/${userId}`);
+      setLoading(true);
+      await axiosInstance.delete(`/users/${userId}`);
       localStorage.removeItem("token");
       localStorage.removeItem("expiresIn");
+
       setShowSuccess(false);
       setShowError(false);
       handleShowDeleted();
-      navigate("/");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -175,7 +181,7 @@ const UserDetails = () => {
   return (
     <>
       <div className="form-control w-full space-y-6">
-        <DelUserModal del={deleteUser} />
+        <DelUserModal del={deleteUser} loading={loading} />
         {renderField("Imię", firstName, "firstName", true)}
         {renderField("Nazwisko", lastName, "lastName", true)}
         {renderField("Email", email, "email", false)}
