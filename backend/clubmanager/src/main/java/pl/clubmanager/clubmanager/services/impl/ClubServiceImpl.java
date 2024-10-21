@@ -2,6 +2,7 @@ package pl.clubmanager.clubmanager.services.impl;
 
 import org.springframework.stereotype.Service;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
+import pl.clubmanager.clubmanager.exceptions.InvalidClubNameException;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNipException;
 import pl.clubmanager.clubmanager.exceptions.InvalidEmailException;
 import pl.clubmanager.clubmanager.exceptions.InvalidPhoneNumberException;
@@ -55,9 +56,24 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public ClubEntity partialUpdate(ClubEntity clubEntity) {
         return clubRepository.findById(clubEntity.getId()).map(existingClub -> {
-            Optional.ofNullable(clubEntity.getClubName()).ifPresent(existingClub::setClubName);
-            Optional.ofNullable(clubEntity.getClubNip()).ifPresent(existingClub::setClubNip);
-            Optional.ofNullable(clubEntity.getPhoneNumber()).ifPresent(existingClub::setPhoneNumber);
+            Optional.ofNullable(clubEntity.getClubName()).ifPresent(clubName -> {
+                if(clubName.length() < 3 || clubName.length() > 50) {
+                    throw new InvalidClubNameException("Nazwa klubu musi mieć od 3 do 50 znaków");
+                }
+                existingClub.setClubName(clubName);
+            });
+            Optional.ofNullable(clubEntity.getClubNip()).ifPresent(clubNip -> {
+                if(clubNip.length() != 10) {
+                    throw new InvalidClubNipException("NIP musi mieć 10 znaków");
+                }
+                existingClub.setClubNip(clubNip);
+            });
+            Optional.ofNullable(clubEntity.getPhoneNumber()).ifPresent(phoneNumber -> {
+                if(phoneNumber.length() != 9) {
+                    throw new InvalidPhoneNumberException("Numer telefonu musi mieć 9 znaków");
+                }
+                existingClub.setPhoneNumber(phoneNumber);
+            });
             return clubRepository.save(existingClub);
         }).orElseThrow(() -> new RuntimeException("Club not found"));
     }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import UserDetails from "./UserDetails";
 import ClubDetails from "./ClubDetails";
 
-const OwnerAccount = () => {
+const OwnerAccount = ({ userId, clubId }) => {
   const [activeButton, setActiveButton] = useState("account");
 
   return (
@@ -12,7 +12,11 @@ const OwnerAccount = () => {
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
           <span className="font-bold">Moje konto</span>
         </div>
-        {activeButton === "account" ? <UserDetails /> : <ClubDetails />}
+        {activeButton === "account" ? (
+          <UserDetails userId={userId} />
+        ) : (
+          <ClubDetails clubId={clubId} />
+        )}
         <div className="join">
           <button
             className={`join-item btn w-28 ${

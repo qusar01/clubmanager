@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.enums.Role;
 
 import java.time.LocalDate;
@@ -42,5 +43,7 @@ public class UserDto {
     private String password;
 
     private Role role;
+
+    private Long clubId;
 
 }

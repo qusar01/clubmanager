@@ -4,10 +4,9 @@ import axiosInstance from "../../config/axiosInstance";
 import Toast from "../Toast";
 import DelUserModal from "../modals/DelUserModal";
 
-const UserDetails = () => {
+const UserDetails = ({ userId }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState("");
   const [firstName, setName] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -25,11 +24,10 @@ const UserDetails = () => {
 
   const fetchUser = async (e) => {
     try {
-      const currUser = await axiosInstance.get(`/users/me`);
+      const currUser = await axiosInstance.get(`/users/${userId}`);
       setName(currUser.data.firstName);
       setLastname(currUser.data.lastName);
       setEmail(currUser.data.email);
-      setUserId(currUser.data.id);
     } catch (error) {
       console.log(error);
     }
