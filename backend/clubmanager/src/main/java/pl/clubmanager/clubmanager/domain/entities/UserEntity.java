@@ -39,6 +39,9 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private ClubEntity club;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(role);

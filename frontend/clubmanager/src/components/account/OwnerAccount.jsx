@@ -10,7 +10,7 @@ const OwnerAccount = () => {
     <div className="card bg-base-100 shadow-2xl w-96 md:w-auto animate-in fade-in zoom-in">
       <div className="card-body items-center justify-center mx-auto gap-8">
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
-          <span className="">Moje konto</span>
+          <span className="font-bold">Moje konto</span>
         </div>
         {activeButton === "account" ? <UserDetails /> : <ClubDetails />}
         <div className="join">

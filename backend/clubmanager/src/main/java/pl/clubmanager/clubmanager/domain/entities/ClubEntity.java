@@ -26,8 +26,8 @@ public class ClubEntity {
 
     private String clubName;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "owner_id")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
     private UserEntity owner;
 
     @JoinTable(name = "club_users",

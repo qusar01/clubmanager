@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import Toast from "../Toast";
+import DelUserModal from "../modals/DelUserModal";
 
 const UserDetails = () => {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [firstName, setName] = useState("");
   const [lastName, setLastname] = useState("");
@@ -14,9 +16,11 @@ const UserDetails = () => {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
 
   const handleShowSuccess = () => setShowSuccess(true);
   const handleShowError = () => setShowError(true);
+  const handleShowDeleted = () => setShowDeleted(true);
 
   const fetchUser = async (e) => {
     try {
@@ -154,35 +158,66 @@ const UserDetails = () => {
     </div>
   );
 
+  const deleteUser = async (e) => {
+    try {
+      const response = await axiosInstance.delete(`/users/${userId}`);
+      localStorage.removeItem("token");
+      localStorage.removeItem("expiresIn");
+      setShowSuccess(false);
+      setShowError(false);
+      handleShowDeleted();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="form-control w-full space-y-8">
-      {renderField("Imię", firstName, "firstName", true)}
-      {renderField("Nazwisko", lastName, "lastName", true)}
-      {renderField("Email", email, "email", false)}
-      <div className="join gap-1 justify-center">
-        <Link
-          to={`/set-password?email=${email}`}
-          className="btn btn-sm btn-warning btn-outline"
-        >
-          Zmień hasło
-        </Link>
-        <button className="btn btn-sm btn-error btn-outline">Usuń konto</button>
+    <>
+      <div className="form-control w-full space-y-6">
+        <DelUserModal del={deleteUser} />
+        {renderField("Imię", firstName, "firstName", true)}
+        {renderField("Nazwisko", lastName, "lastName", true)}
+        {renderField("Email", email, "email", false)}
+        <div className="join gap-x-1 justify-center">
+          <Link
+            to={`/set-password?email=${email}`}
+            className="btn btn-sm btn-warning btn-outline"
+          >
+            Zmień hasło
+          </Link>
+          <button
+            onClick={() => {
+              document.getElementById("del_user").showModal();
+            }}
+            className="btn btn-sm btn-error btn-outline"
+          >
+            Usuń konto
+          </button>
+        </div>
+        {showSuccess && (
+          <Toast
+            message="Pomyślnie zmieniono dane."
+            type="success"
+            onClose={() => setShowSuccess(false)}
+          />
+        )}
+        {showError && (
+          <Toast
+            message="Niepoprawne dane."
+            type="error"
+            onClose={() => setShowError(false)}
+          />
+        )}
+        {showDeleted && (
+          <Toast
+            message="Usunięto konto."
+            type="success"
+            onClose={() => setShowDeleted(false)}
+          />
+        )}
       </div>
-      {showSuccess && (
-        <Toast
-          message="Pomyślnie zmieniono dane."
-          type="success"
-          onClose={() => setShowSuccess(false)}
-        />
-      )}
-      {showError && (
-        <Toast
-          message="Niepoprawne dane."
-          type="error"
-          onClose={() => setShowError(false)}
-        />
-      )}
-    </div>
+    </>
   );
 };
 
