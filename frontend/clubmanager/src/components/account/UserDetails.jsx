@@ -78,7 +78,12 @@ const UserDetails = ({ userId, role }) => {
           break;
         case "birthDate":
           await editField(e, "birthDate", tempValue);
-          setBirthDate(tempValue);
+          if (tempValue) {
+            setBirthDate(tempValue);
+          } else {
+            handleShowError();
+          }
+          break;
         default:
           break;
       }
@@ -103,7 +108,9 @@ const UserDetails = ({ userId, role }) => {
     console.log("okok");
     setShowSuccess(false);
     setShowError(false);
-    handleShowSuccess();
+    if (value) {
+      handleShowSuccess();
+    }
   };
 
   const handleCancel = () => {
