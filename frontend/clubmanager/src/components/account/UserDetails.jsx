@@ -10,6 +10,7 @@ const UserDetails = ({ userId, role }) => {
   const [firstName, setName] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
+  const [birthDate, setBirthDate] = useState("");
 
   const [tempValue, setTempValue] = useState("");
   const [editingField, setEditingField] = useState(null);
@@ -29,6 +30,7 @@ const UserDetails = ({ userId, role }) => {
       setName(currUser.data.firstName);
       setLastname(currUser.data.lastName);
       setEmail(currUser.data.email);
+      setBirthDate(currUser.data.birthDate);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -52,6 +54,8 @@ const UserDetails = ({ userId, role }) => {
         return lastName;
       case "email":
         return email;
+      case "birthDate":
+        return birthDate;
       default:
         return "";
     }
@@ -72,6 +76,9 @@ const UserDetails = ({ userId, role }) => {
           await editField(e, "email", tempValue);
           setEmail(tempValue);
           break;
+        case "birthDate":
+          await editField(e, "birthDate", tempValue);
+          setBirthDate(tempValue);
         default:
           break;
       }
@@ -116,7 +123,7 @@ const UserDetails = ({ userId, role }) => {
       {editingField === field ? (
         <>
           <input
-            type="text"
+            type={field === "birthDate" ? "date" : "text"}
             className="input input-bordered w-3/4 text-xs lg:text-base"
             value={tempValue}
             onChange={(e) => setTempValue(e.target.value)}
@@ -185,6 +192,7 @@ const UserDetails = ({ userId, role }) => {
         {renderField("Imię", firstName, "firstName", true)}
         {renderField("Nazwisko", lastName, "lastName", true)}
         {renderField("Email", email, "email", false)}
+        {renderField("Data urodzenia", birthDate, "birthDate", true)}
         <div className="join gap-x-1 justify-center">
           <Link
             to={`/set-password?email=${email}`}

@@ -2,11 +2,13 @@ package pl.clubmanager.clubmanager.services.impl;
 
 import org.springframework.stereotype.Service;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
+import pl.clubmanager.clubmanager.exceptions.InvalidBirthDateException;
 import pl.clubmanager.clubmanager.exceptions.InvalidFirstNameException;
 import pl.clubmanager.clubmanager.exceptions.InvalidLastNameException;
 import pl.clubmanager.clubmanager.repositories.UserRepository;
 import pl.clubmanager.clubmanager.services.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,6 +57,12 @@ public class UserServiceImpl implements UserService {
                     throw new InvalidLastNameException("Niepoprawne nazwisko");
                 }
                 existingUser.setLastName(lastName);
+            });
+            Optional.ofNullable(userEntity.getBirthDate()).ifPresent(birthDate -> {
+                if (birthDate.isAfter(LocalDate.now()) || birthDate.isBefore(LocalDate.of(1900, 1, 1))) {
+                    throw new InvalidBirthDateException("Niepoprawna data.");
+                }
+                existingUser.setBirthDate(birthDate);
             });
             return userRepository.save(existingUser);
         }).orElseThrow(() -> new RuntimeException("User not found"));
