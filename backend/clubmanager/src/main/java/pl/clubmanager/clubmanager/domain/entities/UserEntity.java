@@ -31,6 +31,8 @@ public class UserEntity implements UserDetails {
 
     private String password;
 
+    private LocalDate birthDate;
+
     private boolean enabled;
 
     private String verificationCode;

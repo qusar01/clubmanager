@@ -16,7 +16,6 @@ const Login = () => {
       email,
       password,
     };
-    console.log(newLogin);
 
     try {
       const loginRes = await axiosInstance.post(`/auth/login`, newLogin);

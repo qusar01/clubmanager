@@ -18,4 +18,6 @@ public interface ClubService {
     ClubEntity partialUpdate(ClubEntity clubEntity);
 
     void delete(Long id);
+
+    Optional<ClubEntity> findByUserId(Long userId);
 }

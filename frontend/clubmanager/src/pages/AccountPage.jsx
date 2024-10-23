@@ -18,9 +18,24 @@ const AccountPage = () => {
     }
   };
 
+  const fetchClub = async (e) => {
+    if (!clubId) {
+      try {
+        const currClub = await axiosInstance.get(`/clubs/users/${userId}`);
+        setClubId(currClub.data.id);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    fetchClub();
+  }, [userId]);
 
   return (
     <section className="py-1 bg-base-200">

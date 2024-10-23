@@ -6,6 +6,7 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [clubNip, setClubNip] = useState("");
   const [clubName, setClubName] = useState("");
@@ -36,6 +37,7 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
       lastName,
       email,
       password,
+      birthDate,
       phoneNumber,
       clubNip,
       clubName,
@@ -215,6 +217,42 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
           {errors["registerUserDto.password"] && (
             <span className="prose text-red-500 text-sm">
               {errors["registerUserDto.password"]}
+            </span>
+          )}
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
+              errors["registerUserDto.birthDate"]
+                ? "border-red-500 text-red-500"
+                : ""
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="h-4 w-4 opacity-70"
+            >
+              <path d="M4.5 2a.5.5 0 0 0-1 0v1h-1a1.5 1.5 0 0 0-1.5 1.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3h-1V2a.5.5 0 0 0-1 0v1h-6V2ZM2.5 4h11a.5.5 0 0 1 .5.5V6H2V4.5a.5.5 0 0 1 .5-.5Zm-.5 3h12v4.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V7Z" />
+            </svg>
+            <input
+              type="text"
+              className={`grow ${
+                errors["registerUserDto.birthDate"] ? "placeholder-red-500" : ""
+              }`}
+              placeholder="Data urodzenia"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              required
+              onFocus={(e) => {
+                e.target.type = "date";
+                onFocusUser("birthDate");
+              }}
+              onBlur={(e) => (e.target.type = "text")}
+            />
+          </label>
+          {errors["registerUserDto.birthDate"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["registerUserDto.birthDate"]}
             </span>
           )}
           <p className="prose mb-2 text-sm">Dane klubu</p>

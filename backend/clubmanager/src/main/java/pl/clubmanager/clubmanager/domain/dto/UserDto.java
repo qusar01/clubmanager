@@ -42,6 +42,8 @@ public class UserDto {
 
     private String password;
 
+    private LocalDate birthDate;
+
     private Role role;
 
     private Long clubId;

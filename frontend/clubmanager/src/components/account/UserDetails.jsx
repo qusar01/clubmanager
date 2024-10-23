@@ -25,6 +25,7 @@ const UserDetails = ({ userId, role }) => {
   const fetchUser = async (e) => {
     try {
       const currUser = await axiosInstance.get(`/users/${userId}`);
+      console.log(currUser.data);
       setName(currUser.data.firstName);
       setLastname(currUser.data.lastName);
       setEmail(currUser.data.email);

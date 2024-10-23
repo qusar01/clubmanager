@@ -15,7 +15,16 @@ const Register = () => {
 
   const submitRegister = async (
     e,
-    { firstName, lastName, email, password, phoneNumber, clubNip, clubName }
+    {
+      firstName,
+      lastName,
+      email,
+      password,
+      birthDate,
+      phoneNumber,
+      clubNip,
+      clubName,
+    }
   ) => {
     e.preventDefault();
     setLoading(true);
@@ -26,6 +35,7 @@ const Register = () => {
       lastName,
       email,
       password,
+      birthDate,
     };
 
     const newClub = {

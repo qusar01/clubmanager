@@ -83,4 +83,11 @@ public class GlobalExceptionHandler {
         errors.put("verificationCode", ex.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(InvalidBirthDateException.class)
+    public ResponseEntity<Map<String, String>> handleBirthDateException(InvalidBirthDateException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("birthDate", ex.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
 }

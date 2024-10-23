@@ -78,4 +78,13 @@ public class ClubController {
         clubService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(path = "/clubs/users/{userId}")
+    public ResponseEntity<ClubDto> getClubByUserId(@PathVariable("userId") Long userId) {
+        Optional<ClubEntity> club = clubService.findByUserId(userId);
+        return club.map(clubEntity -> {
+            ClubDto clubDto = clubMapper.mapTo(clubEntity);
+            return new ResponseEntity<>(clubDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

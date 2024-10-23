@@ -82,4 +82,9 @@ public class ClubServiceImpl implements ClubService {
     public void delete(Long id) {
         clubRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<ClubEntity> findByUserId(Long userId) {
+        return clubRepository.findByUserId(userId);
+    }
 }
