@@ -47,5 +47,11 @@ public class RegisterUserDto {
         @NotNull(message = "Data urodzenia nie może być pusta.")
         private LocalDate birthDate;
 
+        @Pattern(
+                regexp = "^[0-9]{9}$",
+                message = "Niepoprawny numer telefonu."
+        )
+        private String phoneNumber;
+
 
 }

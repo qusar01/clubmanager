@@ -6,6 +6,7 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [clubNip, setClubNip] = useState("");
@@ -37,6 +38,7 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
       lastName,
       email,
       password,
+      phone,
       birthDate,
       phoneNumber,
       clubNip,
@@ -221,6 +223,50 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
           )}
           <label
             className={`input input-bordered flex items-center gap-2 ${
+              errors["registerUserDto.phoneNumber"] || errors.phoneNumber
+                ? "border-red-500 text-red-500"
+                : ""
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4 opacity-70"
+            >
+              <path
+                fillRule="evenodd"
+                d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <input
+              type="number"
+              className={`grow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                errors["clubDto.phoneNumber"] || errors.phoneNumber
+                  ? "placeholder-red-500"
+                  : ""
+              }`}
+              placeholder="Numer telefonu"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              autoComplete="tel"
+              onFocus={() => onFocusUser("phoneNumber")}
+            />
+          </label>
+          {errors["registerUserDto.phoneNumber"] && (
+            <span className="prose text-red-500 text-sm">
+              {errors["registerUserDto.phoneNumber"]}
+            </span>
+          )}
+          {errors.phoneNumber && (
+            <span className="prose text-red-500 text-sm">
+              {errors.phoneNumber}
+            </span>
+          )}
+          <label
+            className={`input input-bordered flex items-center gap-2 ${
               errors["registerUserDto.birthDate"]
                 ? "border-red-500 text-red-500"
                 : ""
@@ -228,11 +274,15 @@ const SignUpCard = ({ submitRegister, loading, errors, setErrors }) => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
+              viewBox="0 0 24 24"
               fill="currentColor"
               className="h-4 w-4 opacity-70"
             >
-              <path d="M4.5 2a.5.5 0 0 0-1 0v1h-1a1.5 1.5 0 0 0-1.5 1.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3h-1V2a.5.5 0 0 0-1 0v1h-6V2ZM2.5 4h11a.5.5 0 0 1 .5.5V6H2V4.5a.5.5 0 0 1 .5-.5Zm-.5 3h12v4.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V7Z" />
+              <path
+                fillRule="evenodd"
+                d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
+                clipRule="evenodd"
+              />
             </svg>
             <input
               type="text"

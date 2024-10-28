@@ -55,7 +55,7 @@ public class AuthenticationService {
         user.setVerificationCode(generateVerificationCode());
         user.setEnabled(false);
         user.setRole(Role.OWNER);
-        sendVerificationEmail(user);
+        //sendVerificationEmail(user);
         return userRepository.save(user);
     }
 

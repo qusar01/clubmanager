@@ -17,6 +17,7 @@ import AccountPage from "./pages/AccountPage";
 import { UserProvider } from "./context/UserContext";
 import ConditionalLayout from "./layouts/ConditionalLayout";
 import PublicRoutes from "./utils/PublicRoutes";
+import MembersPage from "./pages/MembersPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -26,6 +27,7 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
             <Route index element={<HomePage />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/members" element={<MembersPage />} />
           </Route>
         </Route>
 

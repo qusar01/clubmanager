@@ -33,6 +33,8 @@ public class UserEntity implements UserDetails {
 
     private LocalDate birthDate;
 
+    private String phoneNumber;
+
     private boolean enabled;
 
     private String verificationCode;

@@ -40,9 +40,9 @@ public class UserDto {
 
     private String email;
 
-    private String password;
-
     private LocalDate birthDate;
+
+    private String phoneNumber;
 
     private Role role;
 

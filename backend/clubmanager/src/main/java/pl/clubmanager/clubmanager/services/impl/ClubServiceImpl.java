@@ -2,6 +2,7 @@ package pl.clubmanager.clubmanager.services.impl;
 
 import org.springframework.stereotype.Service;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
+import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNameException;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNipException;
 import pl.clubmanager.clubmanager.exceptions.InvalidEmailException;
@@ -86,5 +87,10 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public Optional<ClubEntity> findByUserId(Long userId) {
         return clubRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<UserEntity> findUsersByClubId(Long clubId) {
+        return clubRepository.findUsersByClubId(clubId);
     }
 }

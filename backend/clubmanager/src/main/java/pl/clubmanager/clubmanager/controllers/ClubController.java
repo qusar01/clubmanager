@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.clubmanager.clubmanager.domain.dto.ClubDto;
+import pl.clubmanager.clubmanager.domain.dto.UserDto;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
+import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 import pl.clubmanager.clubmanager.mappers.Mapper;
 import pl.clubmanager.clubmanager.services.ClubService;
 
@@ -19,9 +21,12 @@ public class ClubController {
 
     private Mapper<ClubEntity, ClubDto> clubMapper;
 
-    public ClubController(ClubService clubService, Mapper<ClubEntity, ClubDto> clubMapper) {
+    private Mapper<UserEntity, UserDto> userMapper;
+
+    public ClubController(ClubService clubService, Mapper<ClubEntity, ClubDto> clubMapper, Mapper<UserEntity, UserDto> userMapper) {
         this.clubService = clubService;
         this.clubMapper = clubMapper;
+        this.userMapper = userMapper;
     }
 
     @PostMapping(path = "/clubs")
@@ -86,5 +91,11 @@ public class ClubController {
             ClubDto clubDto = clubMapper.mapTo(clubEntity);
             return new ResponseEntity<>(clubDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping(path = "/clubs/{clubId}/users")
+    public List<UserDto> getUsersByClubId(@PathVariable("clubId") Long clubId) {
+        List<UserEntity> users = clubService.findUsersByClubId(clubId);
+        return users.stream().map(userMapper::mapTo).collect(Collectors.toList());
     }
 }

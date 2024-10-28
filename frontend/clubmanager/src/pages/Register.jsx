@@ -20,6 +20,7 @@ const Register = () => {
       lastName,
       email,
       password,
+      phone,
       birthDate,
       phoneNumber,
       clubNip,
@@ -35,6 +36,7 @@ const Register = () => {
       lastName,
       email,
       password,
+      ["phoneNumber"]: phone,
       birthDate,
     };
 

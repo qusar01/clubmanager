@@ -47,6 +47,7 @@ public class AuthenticationController {
         ClubEntity clubEntity = clubMapper.mapFrom(registerOwnerDto.getClubDto());
         clubEntity.setOwner(user);
         clubService.save(clubEntity);
+        authenticationService.sendVerificationEmail(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 

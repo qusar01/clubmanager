@@ -1,6 +1,7 @@
 package pl.clubmanager.clubmanager.services;
 
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
+import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,6 @@ public interface ClubService {
     void delete(Long id);
 
     Optional<ClubEntity> findByUserId(Long userId);
+
+    List<UserEntity> findUsersByClubId(Long clubId);
 }
