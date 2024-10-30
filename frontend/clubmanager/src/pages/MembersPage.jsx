@@ -7,6 +7,7 @@ const MembersPage = () => {
   const { role, loading } = useUserContext();
   const [userId, setUserId] = useState("");
   const [clubId, setClubId] = useState("");
+  const [members, setMembers] = useState([]);
 
   const fetchUser = async (e) => {
     try {
@@ -32,7 +33,7 @@ const MembersPage = () => {
   const fetchMembers = async (e) => {
     try {
       const resp = await axiosInstance.get(`/clubs/${clubId}/users`);
-      console.log(resp);
+      setMembers(resp.data);
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +57,7 @@ const MembersPage = () => {
         {loading ? (
           <span className="loading loading-spinner mt-64"></span>
         ) : (
-          <MembersList />
+          <MembersList members={members} role={role} />
         )}
       </section>
     </section>

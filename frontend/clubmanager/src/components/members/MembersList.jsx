@@ -1,180 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Member from "./Member";
+import Unauthorized from "../errors_page/Unauthorized";
 
-const MembersList = () => {
+const MembersList = ({ members, role, loading }) => {
   return (
-    <div className="card bg-base-100 shadow-2xl w-96 md:w-auto animate-in fade-in zoom-in">
-      <div className="card-body items-center justify-center mx-auto gap-8">
-        <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
-          <span className="font-bold">Członkowie</span>
+    <>
+      {role === "OWNER" ? (
+        <div className="card bg-base-100 shadow-2xl w-96 sm:w-auto h-[28rem] animate-in fade-in zoom-in">
+          <div className="card-body items-center justify-center mx-auto gap-8 h-full">
+            <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
+              <span className="font-bold">Członkowie</span>
+            </div>
+            <div className="overflow-y-auto">
+              <table className="table table-xs sm:table-sm md:table-md lg:table-lg table-pin-rows">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Rola</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* row 1 */}
+                  {members.map((member) => (
+                    <Member key={member.id} member={member} />
+                  ))}
+                </tbody>
+                {/* foot */}
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Rola</th>
+                    <th></th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Hart Hagerty</div>
-                      <div className="text-sm opacity-50">United States</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Zemlak, Daniel and Leannon
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Desktop Support Technician
-                  </span>
-                </td>
-                <td>Purple</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 2 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Brice Swyre</div>
-                      <div className="text-sm opacity-50">China</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Carroll Group
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Tax Accountant
-                  </span>
-                </td>
-                <td>Red</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 3 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Marjy Ferencz</div>
-                      <div className="text-sm opacity-50">Russia</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Rowe-Schoen
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Office Assistant I
-                  </span>
-                </td>
-                <td>Crimson</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 4 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Yancy Tear</div>
-                      <div className="text-sm opacity-50">Brazil</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Wyman-Ledner
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Community Outreach Specialist
-                  </span>
-                </td>
-                <td>Indigo</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-            </tbody>
-            {/* foot */}
-            <tfoot>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-                <th></th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    </div>
+      ) : (
+        <Unauthorized />
+      )}
+    </>
   );
 };
 
