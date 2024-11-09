@@ -44,11 +44,15 @@ const MembersPage = () => {
   }, []);
 
   useEffect(() => {
-    fetchClub();
+    if (userId) {
+      fetchClub();
+    }
   }, [userId]);
 
   useEffect(() => {
-    fetchMembers();
+    if (clubId) {
+      fetchMembers();
+    }
   }, [clubId]);
 
   return (

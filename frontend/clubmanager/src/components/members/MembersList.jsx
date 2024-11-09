@@ -6,13 +6,13 @@ const MembersList = ({ members, role, loading }) => {
   return (
     <>
       {role === "OWNER" ? (
-        <div className="card bg-base-100 shadow-2xl w-96 sm:w-auto h-[28rem] animate-in fade-in zoom-in">
+        <div className="card bg-base-100 shadow-2xl w-96 sm:w-auto lg:w-[720px] h-[28rem] lg:h-[36rem] animate-in fade-in zoom-in">
           <div className="card-body items-center justify-center mx-auto gap-8 h-full">
             <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
               <span className="font-bold">Członkowie</span>
             </div>
-            <div className="overflow-y-auto">
-              <table className="table table-xs sm:table-sm md:table-md lg:table-lg table-pin-rows">
+            <div className="overflow-y-auto overflow-x-hidden">
+              <table className="table table-xs sm:table-sm md:table-md lg:table-lg table-pin-rows mr-8">
                 {/* head */}
                 <thead>
                   <tr>

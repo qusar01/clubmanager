@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Member = ({ member }) => {
   return (
@@ -25,7 +26,9 @@ const Member = ({ member }) => {
       <td>{member.lastName}</td>
       <td>{member.role === "COACH" ? "Trener" : "Zawodnik"}</td>
       <th>
-        <button className="btn btn-ghost btn-xs">Więcej</button>
+        <Link to={`/members/${member.id}`} className="btn btn-ghost btn-xs">
+          Więcej
+        </Link>
       </th>
     </tr>
   );

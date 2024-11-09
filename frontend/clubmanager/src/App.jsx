@@ -18,6 +18,7 @@ import { UserProvider } from "./context/UserContext";
 import ConditionalLayout from "./layouts/ConditionalLayout";
 import PublicRoutes from "./utils/PublicRoutes";
 import MembersPage from "./pages/MembersPage";
+import MemberDetailsPage from "./pages/MemberDetailsPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -28,6 +29,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/account" element={<AccountPage />} />
             <Route path="/members" element={<MembersPage />} />
+            <Route path="/members/:memberId" element={<MemberDetailsPage />} />
           </Route>
         </Route>
 
