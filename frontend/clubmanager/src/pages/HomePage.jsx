@@ -9,9 +9,9 @@ const HomePage = () => {
   const { role, loading } = useUserContext();
 
   return (
-    <section className="py-1 bg-base-200">
-      <section className="bg-base-200 flex justify-center my-32">
-        {loading ? <span className="loading loading-spinner mt-64"></span> : ""}
+    <section className="py-8 xl:py-0">
+      <section className="bg-base-200 flex justify-center items-center xl:min-h-screen">
+        {loading ? <span className="loading loading-spinner"></span> : ""}
         {role === "ADMIN" && <AdminDashboard />}
         {role === "OWNER" && <OwnerDashboard />}
         {role === "COACH" && <CoachDashboard />}

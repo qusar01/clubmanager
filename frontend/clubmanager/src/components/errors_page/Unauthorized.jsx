@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const Unauthorized = () => {
   return (
     <div className="py-16 animate-in fade-in zoom-in">
-      <div className="p-8 bg-white shadow-lg rounded-md max-w-md text-center space-y-6">
+      <div className="p-8 bg-base-100 shadow-lg rounded-md max-w-md text-center space-y-6">
         <div className="flex justify-center">
-          <span className="text-red-600">
+          <span className="text-error">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -22,8 +22,8 @@ const Unauthorized = () => {
           </span>
         </div>
 
-        <h2 className="text-4xl font-bold text-red-600">401 Brak Dostępu</h2>
-        <p className="text-gray-600">
+        <h2 className="text-4xl font-bold text-error">401 Brak Dostępu</h2>
+        <p className="">
           Przepraszamy, nie masz uprawnień do dostępu do tej strony. Zaloguj się
           przy użyciu odpowiednich danych uwierzytelniających.
         </p>

@@ -5,7 +5,7 @@ import axiosInstance from "../config/axiosInstance";
 import MemberCard from "../components/members/MemberCard";
 
 const MemberDetailsPage = () => {
-  const { loading } = useUserContext();
+  const { role, loading } = useUserContext();
   const { memberId } = useParams();
   const [member, setMember] = useState({});
 
@@ -25,10 +25,10 @@ const MemberDetailsPage = () => {
   };
 
   return (
-    <section className="py-1 bg-base-200">
-      <section className="bg-base-200 flex justify-center my-48">
-        {loading && Object.keys(member) !== 0 ? (
-          <span className="loading loading-spinner mt-64"></span>
+    <section className="py-0">
+      <section className="bg-base-200 flex justify-center items-center min-h-screen">
+        {(loading && Object.keys(member) !== 0) || !role ? (
+          <span className="loading loading-spinner"></span>
         ) : (
           <MemberCard member={member} />
         )}

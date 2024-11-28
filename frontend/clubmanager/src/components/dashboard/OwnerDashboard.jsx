@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const OwnerDashboard = () => {
   return (
-    <section className="grid my-auto gap-y-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+    <section className="grid gap-y-8 grid-cols-1 mt-20 xl:my-auto md:grid-cols-2 xl:grid-cols-3">
       <Link
         to="/members"
         className="btn btn-ghost h-32 md:h-80 w-96 hover:bg-transparent"

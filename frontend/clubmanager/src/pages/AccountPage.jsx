@@ -38,8 +38,8 @@ const AccountPage = () => {
   }, [userId]);
 
   return (
-    <section className="py-1 bg-base-200">
-      <section className="bg-base-200 flex justify-center my-48">
+    <section className="py-0">
+      <section className="bg-base-200 flex justify-center items-center min-h-screen">
         {loading ? (
           <span className="loading loading-spinner mt-64"></span>
         ) : (

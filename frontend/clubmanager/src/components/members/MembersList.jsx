@@ -5,7 +5,7 @@ import Unauthorized from "../errors_page/Unauthorized";
 const MembersList = ({ members, role, loading }) => {
   return (
     <>
-      {role === "OWNER" ? (
+      {role === "OWNER" && !loading ? (
         <div className="card bg-base-100 shadow-2xl w-96 sm:w-auto lg:w-[720px] h-[28rem] lg:h-[36rem] animate-in fade-in zoom-in">
           <div className="card-body items-center justify-center mx-auto gap-8 h-full">
             <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
@@ -24,7 +24,6 @@ const MembersList = ({ members, role, loading }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* row 1 */}
                   {members.map((member) => (
                     <Member key={member.id} member={member} />
                   ))}

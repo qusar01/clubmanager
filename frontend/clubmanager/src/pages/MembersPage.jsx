@@ -56,10 +56,10 @@ const MembersPage = () => {
   }, [clubId]);
 
   return (
-    <section className="py-1 bg-base-200">
-      <section className="bg-base-200 flex justify-center my-48">
-        {loading ? (
-          <span className="loading loading-spinner mt-64"></span>
+    <section className="py-0">
+      <section className="bg-base-200 flex justify-center items-center min-h-screen">
+        {loading || !role ? (
+          <span className="loading loading-spinner"></span>
         ) : (
           <MembersList members={members} role={role} />
         )}
