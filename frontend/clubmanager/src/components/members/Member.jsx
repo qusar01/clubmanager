@@ -26,7 +26,11 @@ const Member = ({ member }) => {
       <td>{member.lastName}</td>
       <td>{member.role === "COACH" ? "Trener" : "Zawodnik"}</td>
       <th>
-        <Link to={`/members/${member.id}`} className="btn btn-ghost btn-xs">
+        <Link
+          to={`/members/${member.id}`}
+          state={{ fromLink: true }}
+          className="btn btn-ghost btn-xs"
+        >
           Więcej
         </Link>
       </th>
