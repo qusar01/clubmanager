@@ -7,7 +7,7 @@ export const UserProvider = ({ children }) => {
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchRole = async () => {
     if (!role) {
       setLoading(true);
       const intervalId = setInterval(() => {
@@ -25,6 +25,10 @@ export const UserProvider = ({ children }) => {
       }, 500);
       return () => clearInterval(intervalId);
     }
+  };
+
+  useEffect(() => {
+    fetchRole();
     setLoading(false);
   }, [role, loading, setRole]);
 

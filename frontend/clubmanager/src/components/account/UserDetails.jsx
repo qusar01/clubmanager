@@ -192,6 +192,8 @@ const UserDetails = ({ userId, role }) => {
     }
   };
 
+  if (userId) {
+  }
   return (
     <>
       <div className="form-control w-full space-y-6">

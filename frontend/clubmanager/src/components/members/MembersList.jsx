@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import Member from "./Member";
 import Unauthorized from "../errors_page/Unauthorized";
+import InviteMemberModal from "../modals/InviteMemberModal";
 
 const MembersList = ({ members, role, loading }) => {
   return (
     <>
-      {role === "OWNER" && !loading ? (
+      {role === "OWNER" && !loading && members.length > 0 && (
         <div className="card bg-base-100 shadow-2xl w-96 sm:w-auto lg:w-[720px] h-[28rem] lg:h-[36rem] animate-in fade-in zoom-in">
           <div className="card-body items-center justify-center mx-auto gap-8 h-full">
             <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
@@ -40,11 +41,39 @@ const MembersList = ({ members, role, loading }) => {
                 </tfoot>
               </table>
             </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                document.getElementById("inv_member").showModal();
+              }}
+            >
+              Dodaj członka
+            </button>
           </div>
         </div>
-      ) : (
-        <Unauthorized />
       )}
+      {role === "OWNER" && !loading && members.length === 0 && (
+        <div className="card bg-base-100 shadow-2xl w-96 sm:w-auto lg:w-[720px] h-[28rem] lg:h-[36rem] animate-in fade-in zoom-in">
+          <div className="card-body items-center justify-center mx-auto gap-8 h-full">
+            <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
+              <span className="font-bold">Członkowie</span>
+            </div>
+            <div className="text-base md:text-lg lg:text-xl pointer-events-none flex justify-center">
+              W twoim klubie nie ma jeszcze członków
+            </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                document.getElementById("inv_member").showModal();
+              }}
+            >
+              Dodaj członka
+            </button>
+          </div>
+        </div>
+      )}
+      {role !== "OWNER" && !loading && <Unauthorized />}
+      <InviteMemberModal />
     </>
   );
 };

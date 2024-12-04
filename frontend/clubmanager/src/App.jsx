@@ -19,6 +19,7 @@ import ConditionalLayout from "./layouts/ConditionalLayout";
 import PublicRoutes from "./utils/PublicRoutes";
 import MembersPage from "./pages/MembersPage";
 import MemberDetailsPage from "./pages/MemberDetailsPage";
+import InvitationPage from "./pages/InvitationPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/invite" element={<InvitationPage />} />
           </Route>
         </Route>
 
