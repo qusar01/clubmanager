@@ -154,8 +154,7 @@ const UserDetails = ({ userId, role }) => {
         <>
           <input
             type="text"
-            className="input input-bordered w-3/4 text-xs lg:text-base"
-            disabled
+            className="input input-bordered w-3/4 text-xs lg:text-base pointer-events-none"
             value={value}
             onChange={(e) => setTempValue(e.target.value)}
           />

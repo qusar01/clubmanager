@@ -1,41 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useUserContext } from "../context/UserContext";
-import axiosInstance from "../config/axiosInstance";
 import Account from "../components/account/Account";
+import { useSelector } from "react-redux";
 
 const AccountPage = () => {
   const { role, loading } = useUserContext();
-  const [userId, setUserId] = useState("");
-  const [clubId, setClubId] = useState("");
-
-  const fetchUser = async (e) => {
-    try {
-      const currUser = await axiosInstance.get(`/users/me`);
-      setUserId(currUser.data.id);
-      setClubId(currUser.data.clubId);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchClub = async (e) => {
-    if (!clubId) {
-      try {
-        const currClub = await axiosInstance.get(`/clubs/users/${userId}`);
-        setClubId(currClub.data.id);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    fetchClub();
-  }, [userId]);
+  const userId = useSelector((state) => state.user.userId);
+  const clubId = useSelector((state) => state.user.clubId);
 
   return (
     <section className="py-0">

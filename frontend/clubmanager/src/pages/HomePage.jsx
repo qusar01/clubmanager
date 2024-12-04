@@ -4,6 +4,7 @@ import OwnerDashboard from "../components/dashboard/OwnerDashboard";
 import CoachDashboard from "../components/dashboard/CoachDashboard";
 import CompetitorDashboard from "../components/dashboard/CompetitorDashboard";
 import { useUserContext } from "../context/UserContext";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const { role, loading } = useUserContext();

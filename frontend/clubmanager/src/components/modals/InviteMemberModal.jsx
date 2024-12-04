@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const InviteMemberModal = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   const [memberRole, setMemberRole] = useState("COACH");
+  const clubId = useSelector((state) => state.user.clubId);
 
   const inv = async () => {
     setLoading(true);
