@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import axiosInstance from "../../config/axiosInstance";
 
 const InviteMemberModal = () => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,19 @@ const InviteMemberModal = () => {
 
   const inv = async () => {
     setLoading(true);
+    const newInv = {
+      email,
+      ["role"]: memberRole,
+      clubId,
+    };
+
+    try {
+      await axiosInstance.post(`/invitations`, newInv);
+      setLoading(false);
+    } catch (error) {
+      setErrors(error.response.data);
+      setLoading(false);
+    }
   };
 
   return (

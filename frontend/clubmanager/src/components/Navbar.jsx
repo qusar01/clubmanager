@@ -2,16 +2,19 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ThemeChanger from "./ThemeChanger";
 import { useUserContext } from "../context/UserContext";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { setRole } = useUserContext();
+  const dispatch = useDispatch();
 
   const logout = async (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("expiresIn");
     await setRole("");
+    dispatch(clearUser());
     navigate("/login");
   };
 

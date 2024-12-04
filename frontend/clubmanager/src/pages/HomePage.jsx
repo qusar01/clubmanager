@@ -4,15 +4,22 @@ import OwnerDashboard from "../components/dashboard/OwnerDashboard";
 import CoachDashboard from "../components/dashboard/CoachDashboard";
 import CompetitorDashboard from "../components/dashboard/CompetitorDashboard";
 import { useUserContext } from "../context/UserContext";
-import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const { role, loading } = useUserContext();
 
   return (
     <section className="py-8 xl:py-0">
-      <section className="bg-base-200 flex justify-center items-center xl:min-h-screen">
-        {loading ? <span className="loading loading-spinner"></span> : ""}
+      <section
+        className={`bg-base-200 flex justify-center items-center ${
+          !role && "min-h-screen"
+        } xl:min-h-screen`}
+      >
+        {loading && !role ? (
+          <span className="loading loading-spinner"></span>
+        ) : (
+          ""
+        )}
         {role === "ADMIN" && <AdminDashboard />}
         {role === "OWNER" && <OwnerDashboard />}
         {role === "COACH" && <CoachDashboard />}
