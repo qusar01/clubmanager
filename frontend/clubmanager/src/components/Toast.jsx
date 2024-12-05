@@ -17,7 +17,7 @@ const Toast = ({ message, type = "info", duration = 3000, onClose }) => {
   }, [duration, onClose]);
 
   return (
-    <div className="toast toast-top toast-end animate-in fade-in zoom-in z-50 -top-4">
+    <div className="toast toast-top toast-end animate-in fade-in zoom-in z-50 !-top-4">
       <div
         className={`alert rounded-lg border-2 px-4 py-2 shadow-md ${typeClasses[type]}`}
       >

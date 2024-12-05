@@ -3,7 +3,7 @@ import { useUserContext } from "../context/UserContext";
 import { useLocation, useParams } from "react-router-dom";
 import axiosInstance from "../config/axiosInstance";
 import MemberCard from "../components/members/MemberCard";
-import Unauthorized from "../components/errors_page/Unauthorized";
+import ErrorCard from "../components/ErrorCard";
 
 const MemberDetailsPage = () => {
   const { role, loading } = useUserContext();
@@ -30,7 +30,11 @@ const MemberDetailsPage = () => {
     return (
       <section className="py-0">
         <section className="bg-base-200 flex justify-center items-center min-h-screen">
-          <Unauthorized />
+          <ErrorCard
+            error="401 Brak Dostępu"
+            message="Przepraszamy, nie masz uprawnień do dostępu do tej strony. Zaloguj się
+          przy użyciu odpowiednich danych uwierzytelniających."
+          />
         </section>
       </section>
     );

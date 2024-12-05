@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ThemeChanger from "./ThemeChanger";
 import { useUserContext } from "../context/UserContext";
 import { useDispatch } from "react-redux";
+import { clearUser } from "../redux/slices/userSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();

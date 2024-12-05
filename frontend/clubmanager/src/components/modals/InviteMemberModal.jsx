@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../config/axiosInstance";
 
-const InviteMemberModal = () => {
+const InviteMemberModal = ({ setShowSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
@@ -20,6 +20,9 @@ const InviteMemberModal = () => {
     try {
       await axiosInstance.post(`/invitations`, newInv);
       setLoading(false);
+      document.getElementById("inv_member").close();
+      setShowSuccess(true);
+      setEmail("");
     } catch (error) {
       setErrors(error.response.data);
       setLoading(false);
@@ -57,12 +60,11 @@ const InviteMemberModal = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                onFocus={() => onFocusUser("email")}
+                onFocus={() =>
+                  setErrors((prevErrors) => ({ ...prevErrors, email: null }))
+                }
               />
             </label>
-            {errors.email && (
-              <span className="prose text-red-500 text-sm">{errors.email}</span>
-            )}
             {errors.email && (
               <span className="prose text-red-500 text-sm">{errors.email}</span>
             )}
@@ -75,6 +77,11 @@ const InviteMemberModal = () => {
               <option value="COACH">Trener</option>
               <option value="COMPETITOR">Zawodnik</option>
             </select>
+            <span className="prose">
+              <strong>Uwaga: </strong>
+              Zaproszenia mają ważność przez . Przez ten czas inne kluby nie
+              mogą zaprosić użytkownika o danym adresie email.
+            </span>
           </div>
 
           <div className="modal-action">

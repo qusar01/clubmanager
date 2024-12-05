@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"
+import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+import { thunk } from "redux-thunk";
 
 const persistConfig = {
   key: "root",
@@ -9,7 +10,6 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);
-
 
 const store = configureStore({
   reducer: {
@@ -20,7 +20,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }),
+    }).concat(thunk), 
 });
 
 export const persistor = persistStore(store);

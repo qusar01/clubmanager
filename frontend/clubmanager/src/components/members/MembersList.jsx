@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Member from "./Member";
-import Unauthorized from "../errors_page/Unauthorized";
 import InviteMemberModal from "../modals/InviteMemberModal";
+import Toast from "../Toast";
+import ErrorCard from "../ErrorCard";
 
 const MembersList = ({ members, role, loading }) => {
+  const [showSuccess, setShowSuccess] = useState(false);
   return (
     <>
       {role === "OWNER" && !loading && members.length > 0 && (
@@ -72,8 +74,21 @@ const MembersList = ({ members, role, loading }) => {
           </div>
         </div>
       )}
-      {role !== "OWNER" && !loading && <Unauthorized />}
-      <InviteMemberModal />
+      {role !== "OWNER" && !loading && (
+        <ErrorCard
+          error="401 Brak Dostępu"
+          message="Przepraszamy, nie masz uprawnień do dostępu do tej strony. Zaloguj się
+          przy użyciu odpowiednich danych uwierzytelniających."
+        />
+      )}
+      <InviteMemberModal setShowSuccess={setShowSuccess} />
+      {showSuccess && (
+        <Toast
+          message="Pomyślnie wysłano zaproszenie."
+          type="success"
+          onClose={() => setShowSuccess(false)}
+        />
+      )}
     </>
   );
 };

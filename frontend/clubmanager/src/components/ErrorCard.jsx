@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Unauthorized = () => {
+const ErrorCard = ({ error, message }) => {
   return (
     <div className="py-16 animate-in fade-in zoom-in">
       <div className="p-8 bg-base-100 shadow-lg rounded-md max-w-md text-center space-y-6">
@@ -22,11 +22,8 @@ const Unauthorized = () => {
           </span>
         </div>
 
-        <h2 className="text-4xl font-bold text-error">401 Brak Dostępu</h2>
-        <p className="">
-          Przepraszamy, nie masz uprawnień do dostępu do tej strony. Zaloguj się
-          przy użyciu odpowiednich danych uwierzytelniających.
-        </p>
+        <h2 className="text-4xl font-bold text-error">{error}</h2>
+        <p className="">{message}</p>
 
         <Link to="/" className="btn btn-primary w-full">
           Wróć na stronę główną
@@ -36,4 +33,4 @@ const Unauthorized = () => {
   );
 };
 
-export default Unauthorized;
+export default ErrorCard;

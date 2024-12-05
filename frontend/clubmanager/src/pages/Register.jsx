@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axiosInstance";
 import VerificationCard from "../components/auth/VerificationCard";
 import SignUpCard from "../components/auth/SignUpCard";
+import { useDispatch } from "react-redux";
+import { setClubId, setUserId } from "../redux/slices/userSlice";
 
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -104,6 +107,9 @@ const Register = () => {
       localStorage.setItem("token", loginRes.data.token);
       const expirationTime = Date.now() + loginRes.data.expiresIn;
       localStorage.setItem("expiresIn", expirationTime);
+      const currUser = await axiosInstance.get(`/users/me`);
+      dispatch(setUserId(currUser.data.id));
+      dispatch(setClubId(currUser.data.clubId));
       setLoading(false);
       navigate("/");
     } catch (error) {
