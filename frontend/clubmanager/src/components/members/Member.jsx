@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import DelMemberModal from "../modals/DelMemberModal";
+import Toast from "../Toast";
 
-const Member = ({ member }) => {
+const Member = ({ member, setMembers }) => {
+  const [showSuccess, setShowSuccess] = useState(false);
+
   return (
     <tr>
       <th>
+        <DelMemberModal
+          memberId={member.id}
+          dialogId={`del_member_${member.id}`}
+          setShowSuccess={setShowSuccess}
+          setMembers={setMembers}
+        />
+        {showSuccess && (
+          <Toast
+            message="Pomyślnie usunięto członka."
+            type="success"
+            onClose={() => setShowSuccess(false)}
+          />
+        )}
         <label>
-          <button className="btn btn-xs btn-error px-1">
+          <button
+            className="btn btn-xs btn-error px-1"
+            onClick={() =>
+              document.getElementById(`del_member_${member.id}`).showModal()
+            }
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

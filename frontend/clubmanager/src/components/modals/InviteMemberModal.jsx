@@ -37,9 +37,7 @@ const InviteMemberModal = ({ setShowSuccess }) => {
           <div className="flex flex-col items-center justify-center pt-4 gap-4">
             <label
               className={`input input-bordered flex items-center gap-2 w-3/4 ${
-                errors["registerUserDto.email"] || errors.email
-                  ? "border-red-500 text-red-500"
-                  : ""
+                errors.email ? "border-red-500 text-red-500" : ""
               }`}
             >
               <svg

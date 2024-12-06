@@ -30,7 +30,7 @@ const MembersPage = () => {
         {loading || !role ? (
           <span className="loading loading-spinner"></span>
         ) : (
-          <MembersList members={members} role={role} />
+          <MembersList members={members} setMembers={setMembers} role={role} />
         )}
       </section>
     </section>

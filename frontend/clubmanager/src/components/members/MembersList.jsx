@@ -4,7 +4,7 @@ import InviteMemberModal from "../modals/InviteMemberModal";
 import Toast from "../Toast";
 import ErrorCard from "../ErrorCard";
 
-const MembersList = ({ members, role, loading }) => {
+const MembersList = ({ members, setMembers, role, loading }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   return (
     <>
@@ -28,7 +28,11 @@ const MembersList = ({ members, role, loading }) => {
                 </thead>
                 <tbody>
                   {members.map((member) => (
-                    <Member key={member.id} member={member} />
+                    <Member
+                      key={member.id}
+                      member={member}
+                      setMembers={setMembers}
+                    />
                   ))}
                 </tbody>
                 {/* foot */}
