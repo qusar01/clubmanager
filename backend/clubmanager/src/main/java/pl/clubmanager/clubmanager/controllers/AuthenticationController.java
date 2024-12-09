@@ -51,6 +51,15 @@ public class AuthenticationController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    @PostMapping("/signup-member")
+    @Transactional
+    public ResponseEntity<UserEntity> registerMember(@Valid @RequestBody RegisterMemberDto registerMemberDto) {
+        UserEntity user = authenticationService.signupMember(registerMemberDto);
+        clubService.addMember(registerMemberDto.getClubId(), user.getId());
+        authenticationService.sendVerificationEmail(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@Valid @RequestBody LoginUserDto loginUserDto) {
             UserEntity authenticatedUser = authenticationService.authenticate(loginUserDto);

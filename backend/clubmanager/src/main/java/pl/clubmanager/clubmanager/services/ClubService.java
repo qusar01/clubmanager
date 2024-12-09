@@ -23,4 +23,7 @@ public interface ClubService {
     Optional<ClubEntity> findByUserId(Long userId);
 
     List<UserEntity> findUsersByClubId(Long clubId);
+    List<UserEntity> addMember(Long clubId, Long id);
+
+    List<UserEntity> removeMember(Long id);
 }

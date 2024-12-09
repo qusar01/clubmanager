@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/invitations/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/clubs").permitAll()
                         .anyRequest().authenticated()
                 )

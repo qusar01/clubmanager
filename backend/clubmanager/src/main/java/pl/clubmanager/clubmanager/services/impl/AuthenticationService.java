@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.clubmanager.clubmanager.domain.dto.LoginUserDto;
+import pl.clubmanager.clubmanager.domain.dto.RegisterMemberDto;
 import pl.clubmanager.clubmanager.domain.dto.RegisterUserDto;
 import pl.clubmanager.clubmanager.domain.dto.VerifyUserDto;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
@@ -14,13 +15,17 @@ import pl.clubmanager.clubmanager.exceptions.InvalidEmailException;
 import pl.clubmanager.clubmanager.exceptions.InvalidPasswordException;
 import pl.clubmanager.clubmanager.exceptions.InvalidVerificationCodeException;
 import pl.clubmanager.clubmanager.repositories.UserRepository;
+import pl.clubmanager.clubmanager.services.InvitationService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+
+    private final InvitationService invitationService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -30,11 +35,13 @@ public class AuthenticationService {
 
     public AuthenticationService(
             UserRepository userRepository,
+            InvitationService invitationService,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
             EmailService emailService
     ) {
         this.userRepository = userRepository;
+        this.invitationService = invitationService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.emailService = emailService;
@@ -50,11 +57,38 @@ public class AuthenticationService {
                 .firstName(registerUserDto.getFirstName())
                 .lastName(registerUserDto.getLastName())
                 .email(registerUserDto.getEmail())
+                .birthDate(registerUserDto.getBirthDate())
+                .phoneNumber(registerUserDto.getPhoneNumber())
                 .password(passwordEncoder.encode(registerUserDto.getPassword()))
                 .build();
         user.setVerificationCode(generateVerificationCode());
         user.setEnabled(false);
         user.setRole(Role.OWNER);
+        //sendVerificationEmail(user);
+        return userRepository.save(user);
+    }
+
+    public UserEntity signupMember(RegisterMemberDto registerMemberDto) {
+        userRepository.findByEmail(registerMemberDto.getEmail())
+                .ifPresent(user -> {
+                    throw new InvalidEmailException("Użytkownik o podanym adresie email już istnieje");
+                });
+
+        UserEntity user = UserEntity.builder()
+                .firstName(registerMemberDto.getFirstName())
+                .lastName(registerMemberDto.getLastName())
+                .email(registerMemberDto.getEmail())
+                .birthDate(registerMemberDto.getBirthDate())
+                .phoneNumber(registerMemberDto.getPhoneNumber())
+                .password(passwordEncoder.encode(registerMemberDto.getPassword()))
+                .build();
+        user.setVerificationCode(generateVerificationCode());
+        user.setEnabled(false);
+        if (Objects.equals(registerMemberDto.getRole(), "COACH")) {
+            user.setRole(Role.COACH);
+        } else if (Objects.equals(registerMemberDto.getRole(), "COMPETITOR")) {
+            user.setRole(Role.COMPETITOR);
+        }
         //sendVerificationEmail(user);
         return userRepository.save(user);
     }

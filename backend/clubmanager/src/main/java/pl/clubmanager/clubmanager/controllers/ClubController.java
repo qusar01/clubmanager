@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequestMapping("/clubs")
 @RestController
 public class ClubController {
 
@@ -29,20 +30,20 @@ public class ClubController {
         this.userMapper = userMapper;
     }
 
-    @PostMapping(path = "/clubs")
+    @PostMapping
     public ClubDto createClub(@RequestBody ClubDto club) {
         ClubEntity clubEntity = clubMapper.mapFrom(club);
         ClubEntity savedClubEntity = clubService.save(clubEntity);
         return clubMapper.mapTo(savedClubEntity);
     }
 
-    @GetMapping(path = "/clubs")
+    @GetMapping
     public List<ClubDto> listClubs() {
         List<ClubEntity> clubs = clubService.findAll();
         return clubs.stream().map(clubMapper::mapTo).collect(Collectors.toList());
     }
 
-    @GetMapping(path = "/clubs/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<ClubDto> getClub(@PathVariable("id") Long id) {
         Optional<ClubEntity> club = clubService.findById(id);
         return club.map(clubEntity -> {
@@ -51,7 +52,7 @@ public class ClubController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping(path = "/clubs/{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<ClubDto> fullUpdateClub(@PathVariable("id") Long id, @RequestBody ClubDto clubDto) {
         if(!clubService.isExists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -63,7 +64,7 @@ public class ClubController {
         return new ResponseEntity<>(clubMapper.mapTo(updatedClubEntity), HttpStatus.OK);
     }
 
-    @PatchMapping(path = "/clubs/{id}")
+    @PatchMapping(path = "/{id}")
     public ResponseEntity<ClubDto> partialUpdateClub(@PathVariable("id") Long id, @RequestBody ClubDto clubDto) {
         if(!clubService.isExists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,7 +76,7 @@ public class ClubController {
         return new ResponseEntity<>(clubMapper.mapTo(updatedClubEntity), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/clubs/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<ClubDto> deleteClub(@PathVariable("id") Long id) {
         if(!clubService.isExists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -84,7 +85,7 @@ public class ClubController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/clubs/users/{userId}")
+    @GetMapping(path = "/users/{userId}")
     public ResponseEntity<ClubDto> getClubByUserId(@PathVariable("userId") Long userId) {
         Optional<ClubEntity> club = clubService.findByUserId(userId);
         return club.map(clubEntity -> {
@@ -93,7 +94,7 @@ public class ClubController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(path = "/clubs/{clubId}/users")
+    @GetMapping(path = "/{clubId}/users")
     public List<UserDto> getUsersByClubId(@PathVariable("clubId") Long clubId) {
         List<UserEntity> users = clubService.findUsersByClubId(clubId);
         return users.stream().map(userMapper::mapTo).collect(Collectors.toList());

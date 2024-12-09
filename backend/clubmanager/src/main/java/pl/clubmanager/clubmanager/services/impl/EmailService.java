@@ -41,4 +41,21 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendInvitationEmail(String to, String subject, String link) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText("""
+                <div>
+                    <h1>Zaproszenie do klubu</h1>
+                    <p>Witaj, zostales zaproszony do klubu. Kliknij w ponizszy link aby dolaczyc:</p>
+                    <a href="%s">Dolacz do klubu</a>
+                </div>
+                """.formatted(link), true);
+
+        mailSender.send(message);
+    }
+
 }

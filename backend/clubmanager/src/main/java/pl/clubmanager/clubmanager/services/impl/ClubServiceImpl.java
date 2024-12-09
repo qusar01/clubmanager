@@ -5,7 +5,6 @@ import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNameException;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNipException;
-import pl.clubmanager.clubmanager.exceptions.InvalidEmailException;
 import pl.clubmanager.clubmanager.exceptions.InvalidPhoneNumberException;
 import pl.clubmanager.clubmanager.repositories.ClubRepository;
 import pl.clubmanager.clubmanager.repositories.UserRepository;
@@ -21,8 +20,11 @@ public class ClubServiceImpl implements ClubService {
 
     private ClubRepository clubRepository;
 
-    public ClubServiceImpl(ClubRepository clubRepository) {
+    private UserRepository userRepository;
+
+    public ClubServiceImpl(ClubRepository clubRepository, UserRepository userRepository) {
         this.clubRepository = clubRepository;
+        this.userRepository = userRepository;
     }
     @Override
     public ClubEntity save(ClubEntity club) {
@@ -92,5 +94,34 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<UserEntity> findUsersByClubId(Long clubId) {
         return clubRepository.findUsersByClubId(clubId);
+    }
+
+    @Override
+    public List<UserEntity> addMember(Long clubId, Long userId) {
+        ClubEntity club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new RuntimeException("Club not found"));
+
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (club.getUsers().contains(user)) {
+            throw new RuntimeException("User already in club");
+        }
+        club.getUsers().add(user);
+        clubRepository.save(club);
+        return club.getUsers();
+    }
+
+    @Override
+    public List<UserEntity> removeMember(Long id) {
+        ClubEntity club = clubRepository.findByUserId(id)
+                .orElseThrow(() -> new RuntimeException("Club not found"));
+
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        club.getUsers().remove(user);
+        clubRepository.save(club);
+        return club.getUsers();
     }
 }
