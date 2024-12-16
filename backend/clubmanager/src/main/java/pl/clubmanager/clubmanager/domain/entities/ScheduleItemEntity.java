@@ -23,9 +23,9 @@ public abstract class ScheduleItemEntity {
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    private Date startTime;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
+    private Date endTime;
 
 }
