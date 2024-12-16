@@ -1,0 +1,118 @@
+
+
+@media only screen and (max-width: 420px) {
+  .rbc-calendar, .rbc-toolbar {
+    @apply text-xs;
+  }
+
+  .rbc-toolbar button {
+    @apply w-[4.5rem];
+  }
+}
+
+
+/* Bumblebee */
+
+html[data-theme="bumblebee"] .rbc-calendar {
+  @apply bg-base-100 text-base-content;
+}
+
+html[data-theme="bumblebee"] .rbc-toolbar {
+  @apply bg-base-100 text-base-content gap-y-2;
+}
+
+html[data-theme="bumblebee"] .rbc-header {
+  @apply bg-yellow-400 text-yellow-900;
+}
+
+html[data-theme="bumblebee"] .rbc-header + .rbc-header {
+  @apply border-t-2 border-yellow-300;
+}
+
+html[data-theme="bumblebee"] .rbc-event {
+  @apply bg-yellow-500 text-white;
+}
+
+html[data-theme="bumblebee"] .rbc-event:hover {
+  @apply bg-yellow-600;
+}
+
+html[data-theme="bumblebee"] .rbc-day-bg {
+  @apply bg-yellow-100;
+}
+
+html[data-theme="bumblebee"] .rbc-today {
+  @apply bg-yellow-300;
+}
+
+html[data-theme="bumblebee"] .rbc-off-range-bg {
+  @apply bg-yellow-50;
+}
+
+html[data-theme="bumblebee"] .rbc-day-hover {
+  @apply bg-yellow-200;
+}
+
+
+/* Dracula */
+
+html[data-theme="dracula"] .rbc-calendar {
+  @apply bg-base-100 text-base-content;
+}
+
+html[data-theme="dracula"] .rbc-toolbar {
+  @apply bg-base-100 text-base-content border-gray-600;
+
+  & button {
+    @apply text-base-content border-gray-600;
+
+    &:active,
+    &.rbc-active {
+      @apply bg-base-300 text-white border-gray-600;
+    }
+  }
+}
+
+html[data-theme="dracula"] .rbc-toolbar button {
+  @apply text-base-content border-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-toolbar button:hover, .rbc-toolbar button:focus, .rbc-toolbar button .rbc-active {
+  @apply bg-base-300 text-white border-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-header {
+  @apply bg-purple-900 text-white border-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-event {
+  @apply bg-purple-700 text-white;
+}
+
+html[data-theme="dracula"] .rbc-event:hover {
+  @apply bg-purple-800;
+}
+
+html[data-theme="dracula"] .rbc-day-bg {
+  @apply bg-gray-800 border-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-month-view {
+  @apply border-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-month-row {
+  @apply border-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-off-range-bg {
+  @apply bg-gray-900;
+}
+
+html[data-theme="dracula"] .rbc-today {
+  @apply bg-gray-600;
+}
+
+html[data-theme="dracula"] .rbc-day-hover {
+  @apply bg-gray-700;
+}

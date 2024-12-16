@@ -20,6 +20,7 @@ import PublicRoutes from "./utils/PublicRoutes";
 import MembersPage from "./pages/MembersPage";
 import MemberDetailsPage from "./pages/MemberDetailsPage";
 import InvitationPage from "./pages/InvitationPage";
+import TrainingsPage from "./pages/TrainingsPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/members" element={<MembersPage />} />
             <Route path="/members/:memberId" element={<MemberDetailsPage />} />
+            <Route path="/trainings" element={<TrainingsPage />} />
           </Route>
         </Route>
 

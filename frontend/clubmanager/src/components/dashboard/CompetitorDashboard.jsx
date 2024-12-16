@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 const CompetitorDashboard = () => {
   return (
     <section className="grid gap-y-8 grid-cols-1 mt-20 xl:my-auto md:grid-cols-2 xl:grid-cols-3">
-      <Link className="btn btn-ghost h-32 md:h-80 w-96 hover:bg-transparent">
+      <Link
+        to="/trainings"
+        className="btn btn-ghost h-32 md:h-80 w-96 hover:bg-transparent"
+      >
         <div className="card bg-base-100 shadow-2xl h-32 md:h-80 w-full animate-in fade-in zoom-in">
           <div className="card-body items-center justify-center">
             <div className="text-xl md:text-2xl hover:bg-transparent w-full pointer-events-none flex justify-center md:block">
