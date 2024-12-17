@@ -1,5 +1,5 @@
 import React from "react";
-import MyCalendar from "../MyCalendar";
+import MyCalendar from "../calendar/MyCalendar";
 
 const TrainingCard = () => {
   const events = [
@@ -81,7 +81,7 @@ const TrainingCard = () => {
   ];
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-full md:w-3/4 max-w-[1000px] animate-in fade-in zoom-in">
+    <div className="card bg-base-100 shadow-2xl w-full md:w-3/4 max-w-[1000px] animate-in fade-in zoom-in mt-16">
       <div className="card-body items-center justify-center w-full">
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center mx-auto pt-4">
           <span className="font-bold">Treningi</span>

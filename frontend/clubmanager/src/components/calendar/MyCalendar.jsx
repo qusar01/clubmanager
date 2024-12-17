@@ -3,7 +3,8 @@ import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import "../CalendarStyles.css";
+import "./CalendarStyles.css";
+import "./CalendarSCSS.scss";
 
 dayjs.locale("pl");
 
@@ -23,23 +24,22 @@ const messages = {
   yesterday: "Wczoraj",
   tomorrow: "Jutro",
   today: "Dzisiaj",
-  agenda: "Agenda",
+  agenda: "Lista",
   noEventsInRange: "Brak wydarzeń w tym zakresie.",
 };
 
 const MyCalendar = ({ events, onSelectEvent }) => {
   return (
-    <div className="p-4 w-full">
+    <div className="py-4 md:p-4 w-full">
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="startTime"
         endAccessor="endTime"
-        style={{ height: 600 }}
         messages={messages}
         onSelectEvent={onSelectEvent}
         views={["month", "week", "day", "agenda"]}
-        className="w-full"
+        className="w-full h-[500px] md:h-[600px]"
       />
     </div>
   );
