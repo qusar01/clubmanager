@@ -15,4 +15,6 @@ public interface EventRepository extends CrudRepository<EventEntity, Long> {
     List<EventEntity> findByCoachId(Long coachId);
 
     List<EventEntity> findByStartTimeBetween(Date start, Date end);
+
+    List<EventEntity> findByClubIdAndStartTimeBetween(Long clubId, Date start, Date end);
 }

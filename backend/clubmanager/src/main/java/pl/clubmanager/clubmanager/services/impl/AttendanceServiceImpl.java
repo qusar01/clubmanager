@@ -1,12 +1,12 @@
 package pl.clubmanager.clubmanager.services.impl;
 
 import org.springframework.stereotype.Service;
+import pl.clubmanager.clubmanager.domain.dto.ClubRankingDto;
 import pl.clubmanager.clubmanager.domain.entities.AttendanceEntity;
 import pl.clubmanager.clubmanager.repositories.AttendanceRepository;
 import pl.clubmanager.clubmanager.services.AttendanceService;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -58,5 +58,68 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List<AttendanceEntity> findByEventId(Long id) {
         return attendanceRepository.findByEventId(id);
+    }
+
+    @Override
+    public List<AttendanceEntity> getAttendancesForUserInCurrentMonth(Long userId) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date start = calendar.getTime();
+
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date end = calendar.getTime();
+
+        List<AttendanceEntity> attendancesFromTrainings =
+                attendanceRepository.findAttendancesForUserAndMonthInTrainings(userId, start, end);
+
+        List<AttendanceEntity> attendancesFromEvents =
+                attendanceRepository.findAttendancesForUserAndMonthInEvents(userId, start, end);
+
+        attendancesFromTrainings.addAll(attendancesFromEvents);
+        return attendancesFromTrainings;
+    }
+
+    @Override
+    public List<ClubRankingDto> getRankngForClub(Long clubId) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date start = calendar.getTime();
+
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date end = calendar.getTime();
+
+        List<Object[]> results = attendanceRepository.getRankingForClub(clubId, start, end);
+
+        List<ClubRankingDto> ranking = new ArrayList<>();
+        for (Object[] row : results) {
+            Long memberId = (Long) row[0];
+            String firstName = (String) row[1];
+            String lastName = (String) row[2];
+            Long attendanceCount = (Long) row[3];
+            ranking.add(new ClubRankingDto(memberId, firstName, lastName, attendanceCount));
+        }
+        return ranking;
     }
 }

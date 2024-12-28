@@ -1,5 +1,6 @@
 package pl.clubmanager.clubmanager.services;
 
+import pl.clubmanager.clubmanager.domain.dto.ClubRankingDto;
 import pl.clubmanager.clubmanager.domain.entities.AttendanceEntity;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface AttendanceService {
     List<AttendanceEntity> findByTrainingId(Long id);
 
     List<AttendanceEntity> findByEventId(Long id);
+
+    List<AttendanceEntity> getAttendancesForUserInCurrentMonth(Long userId);
+
+    List<ClubRankingDto> getRankngForClub(Long clubId);
 }

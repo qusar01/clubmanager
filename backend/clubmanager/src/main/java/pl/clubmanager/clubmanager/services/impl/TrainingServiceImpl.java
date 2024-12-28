@@ -5,6 +5,7 @@ import pl.clubmanager.clubmanager.domain.entities.TrainingEntity;
 import pl.clubmanager.clubmanager.repositories.TrainingRepository;
 import pl.clubmanager.clubmanager.services.TrainingService;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -59,5 +60,27 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     public List<TrainingEntity> findByStartTimeBetween(Date start, Date end) {
         return trainingRepository.findByStartTimeBetween(start, end);
+    }
+
+    @Override
+    public List<TrainingEntity> getTrainingsForCurrentMonth(Long clubId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date start = calendar.getTime();
+
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date end = calendar.getTime();
+
+        return trainingRepository.findByClubIdAndStartTimeBetween(clubId, start, end);
     }
 }

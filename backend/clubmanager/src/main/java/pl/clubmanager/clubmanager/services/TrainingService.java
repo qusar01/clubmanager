@@ -22,5 +22,7 @@ public interface TrainingService {
     List<TrainingEntity> findByClubId(Long clubId);
 
     List<TrainingEntity> findByStartTimeBetween(Date start, Date end);
+
+    List<TrainingEntity> getTrainingsForCurrentMonth(Long clubId);
 }
 

@@ -15,4 +15,6 @@ public interface TrainingRepository extends CrudRepository<TrainingEntity, Long>
     List<TrainingEntity> findByCoachId(Long coachId);
 
     List<TrainingEntity> findByStartTimeBetween(Date start, Date end);
+
+    List<TrainingEntity> findByClubIdAndStartTimeBetween(Long clubId, Date start, Date end);
 }
