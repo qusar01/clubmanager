@@ -83,4 +83,10 @@ public class TrainingServiceImpl implements TrainingService {
 
         return trainingRepository.findByClubIdAndStartTimeBetween(clubId, start, end);
     }
+
+    @Override
+    public List<TrainingEntity> getActiveTrainings(Long clubId, Long userId) {
+        Date now = new Date();
+        return trainingRepository.findActiveTrainingsForUser(clubId, userId, now);
+    }
 }

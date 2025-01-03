@@ -83,4 +83,11 @@ public class EventServiceImpl implements EventService {
 
         return eventRepository.findByClubIdAndStartTimeBetween(clubId, start, end);
     }
+
+    @Override
+    public List<EventEntity> getActiveEvents(Long clubId, Long userId) {
+        Date now = new Date();
+        return eventRepository.findActiveEventsForUser(clubId, userId, now);
+    }
+
 }

@@ -1,7 +1,5 @@
 package pl.clubmanager.clubmanager.controllers;
 
-import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +47,12 @@ public class EventController {
     @GetMapping(path = "/coach/{id}")
     public List<EventDto> listCoachEvents(@PathVariable("id") Long id){
         List<EventEntity> events = eventService.findByCoachId(id);
+        return events.stream().map(eventMapper::mapTo).collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "/club/{clubId}/user/{userId}")
+    public List<EventDto> listActiveEvents(@PathVariable("clubId") Long clubId, @PathVariable("userId") Long userId){
+        List<EventEntity> events = eventService.getActiveEvents(clubId, userId);
         return events.stream().map(eventMapper::mapTo).collect(Collectors.toList());
     }
 

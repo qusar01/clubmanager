@@ -23,4 +23,6 @@ public interface EventService {
     List<EventEntity> findByStartTimeBetween(Date start, Date end);
 
     List<EventEntity> getEventsForCurrentMonth(Long clubId);
+
+    List<EventEntity> getActiveEvents(Long clubId, Long userId);
 }

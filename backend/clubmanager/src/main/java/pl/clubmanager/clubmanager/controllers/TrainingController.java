@@ -50,6 +50,12 @@ public class TrainingController {
         return trainings.stream().map(trainingMapper::mapTo).collect(Collectors.toList());
     }
 
+    @GetMapping(path = "/club/{clubId}/user/{userId}")
+    public List<TrainingDto> listActiveTrainings(@PathVariable("clubId") Long clubId, @PathVariable("userId") Long userId){
+        List<TrainingEntity> trainings = trainingService.getActiveTrainings(clubId, userId);
+        return trainings.stream().map(trainingMapper::mapTo).collect(Collectors.toList());
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<TrainingDto> getTraining(@PathVariable("id") Long id) {
         Optional<TrainingEntity> training = trainingService.findById(id);
