@@ -1,84 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MyCalendar from "../calendar/MyCalendar";
+import axiosInstance from "../../config/axiosInstance";
+import { useUserContext } from "../../context/UserContext";
+import { useSelector } from "react-redux";
+import EventInfoModal from "../modals/EventInfoModal";
+import AddEventModal from "../modals/AddEventModal";
+import Toast from "../Toast";
+import AttendanceList from "../attendances/AttendanceList";
 
 const TrainingCard = () => {
-  const events = [
-    {
-      title: "Spotkanie z zespołem",
-      startTime: new Date(2024, 11, 20, 10, 0), // 20 grudnia 2024, godz. 10:00
-      endTime: new Date(2024, 11, 20, 12, 0), // 20 grudnia 2024, godz. 12:00
-    },
-    {
-      title: "Wizyta u lekarza",
-      startTime: new Date(2024, 11, 22, 14, 30), // 22 grudnia 2024, godz. 14:30
-      endTime: new Date(2024, 11, 22, 15, 30), // 22 grudnia 2024, godz. 15:30
-    },
-    {
-      title: "Kolacja z przyjaciółmi",
-      startTime: new Date(2024, 11, 25, 19, 0),
-      endTime: new Date(2024, 11, 25, 21, 0),
-    },
-    {
-      title: "Prezentacja projektu",
-      startTime: new Date(2024, 11, 18, 9, 0),
-      endTime: new Date(2024, 11, 18, 10, 30),
-    },
-    {
-      title: "Siłownia",
-      startTime: new Date(2024, 11, 21, 18, 0),
-      endTime: new Date(2024, 11, 21, 19, 0),
-    },
-    {
-      title: "Spotkanie z klientem",
-      startTime: new Date(2024, 11, 19, 13, 30),
-      endTime: new Date(2024, 11, 19, 15, 0),
-    },
-    {
-      title: "Zakupy świąteczne",
-      startTime: new Date(2024, 11, 23, 11, 0),
-      endTime: new Date(2024, 11, 23, 13, 0),
-    },
-    {
-      title: "Warsztaty kulinarne",
-      startTime: new Date(2024, 11, 17, 16, 0),
-      endTime: new Date(2024, 11, 17, 19, 0),
-    },
-    {
-      title: "Webinar",
-      startTime: new Date(2024, 11, 20, 15, 0),
-      endTime: new Date(2024, 11, 20, 16, 30),
-    },
-    {
-      title: "Spacer z psem",
-      startTime: new Date(2024, 11, 24, 7, 0),
-      endTime: new Date(2024, 11, 24, 7, 30),
-    },
-    {
-      title: "Rozmowa rekrutacyjna",
-      startTime: new Date(2024, 11, 15, 10, 30),
-      endTime: new Date(2024, 11, 15, 11, 30),
-    },
-    {
-      title: "Konsultacja z doradcą",
-      startTime: new Date(2024, 11, 28, 14, 0),
-      endTime: new Date(2024, 11, 28, 15, 0),
-    },
-    {
-      title: "Nauka języka obcego",
-      startTime: new Date(2024, 11, 16, 17, 0),
-      endTime: new Date(2024, 11, 16, 18, 30),
-    },
-    {
-      title: "Wycieczka rowerowa",
-      startTime: new Date(2024, 11, 30, 9, 0),
-      endTime: new Date(2024, 11, 30, 12, 0),
-    },
-    {
-      title: "Spotkanie integracyjne",
-      startTime: new Date(2024, 11, 29, 16, 0),
-      endTime: new Date(2024, 11, 29, 20, 0),
-    },
-  ];
+  const clubId = useSelector((state) => state.user.clubId);
+  const { role, loading } = useUserContext();
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isAttendance, setIsAttendance] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showSuccessDelete, setShowSuccessDelete] = useState(false);
+
+  useEffect(() => {
+    fetchTrainings();
+  }, []);
+
+  useEffect(() => {
+    if (selectedEvent) {
+      const modal = document.getElementById("event_info");
+      if (modal) modal.showModal();
+    }
+  }, [selectedEvent]);
+
+  const fetchTrainings = async () => {
+    const response = await axiosInstance.get(`/trainings/club/${clubId}`);
+    const formattedEvents = response.data.map((training) => ({
+      id: training.id,
+      title: training.title,
+      startTime: new Date(training.startTime),
+      endTime: new Date(training.endTime),
+      description: training.description,
+      clubId: training.clubId,
+      coachId: training.coachId,
+    }));
+    setEvents(formattedEvents);
+  };
+
+  const selectEvent = (event) => {
+    setSelectedEvent(event);
+  };
+
+  const closeModal = () => {
+    document.getElementById("event_info").close();
+    setSelectedEvent(null);
+  };
 
   return (
     <div className="card bg-base-100 shadow-2xl w-full md:w-3/4 max-w-[1000px] animate-in fade-in zoom-in mt-16">
@@ -86,10 +57,64 @@ const TrainingCard = () => {
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center mx-auto pt-4">
           <span className="font-bold">Treningi</span>
         </div>
-        <MyCalendar
-          events={events}
-          onSelectEvent={(event) => alert(event.title)}
+        {events && !isAttendance && (
+          <MyCalendar events={events} onSelectEvent={selectEvent} />
+        )}
+
+        {isAttendance && <AttendanceList />}
+
+        <AddEventModal
+          eventType="trening"
+          setShowSuccess={setShowSuccess}
+          setEvents={setEvents}
         />
+        {showSuccess && (
+          <Toast
+            message="Pomyślnie dodano trening."
+            type="success"
+            onClose={() => setShowSuccess(false)}
+          />
+        )}
+
+        {role === "COACH" && (
+          <button
+            className="btn btn-secondary"
+            onClick={() => document.getElementById("add_event").showModal()}
+          >
+            Dodaj trening
+          </button>
+        )}
+
+        {isAttendance ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => setIsAttendance(false)}
+          >
+            Kalendarz
+          </button>
+        ) : (
+          <button
+            className="btn btn-secondary"
+            onClick={() => setIsAttendance(true)}
+          >
+            Obecności
+          </button>
+        )}
+
+        <EventInfoModal
+          event={selectedEvent}
+          eventType="trening"
+          setEvents={setEvents}
+          onClose={closeModal}
+          setShowSuccessDelete={setShowSuccessDelete}
+        />
+        {showSuccessDelete && (
+          <Toast
+            message="Pomyślnie usunięto trening."
+            type="success"
+            onClose={() => setShowSuccessDelete(false)}
+          />
+        )}
       </div>
     </div>
   );

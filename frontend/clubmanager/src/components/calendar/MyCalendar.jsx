@@ -39,7 +39,7 @@ const MyCalendar = ({ events, onSelectEvent }) => {
         messages={messages}
         onSelectEvent={onSelectEvent}
         views={["month", "week", "day", "agenda"]}
-        className="w-full h-[500px] md:h-[600px]"
+        className="w-full h-[500px]"
       />
     </div>
   );
