@@ -19,8 +19,6 @@ public interface TrainingRepository extends CrudRepository<TrainingEntity, Long>
 
     List<TrainingEntity> findByClubIdAndStartTimeBetween(Long clubId, Date start, Date end);
 
-    List<TrainingEntity> findByClubIdAndStartTimeBeforeAndEndTimeAfter(Long clubId, Date now);
-
     @Query("SELECT t FROM trainings t " +
             "WHERE t.club.id = :clubId " +
             "AND t.startTime <= :now " +

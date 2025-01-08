@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../../config/axiosInstance";
+import { useSelector } from "react-redux";
 
-const AttendanceList = () => {
+const AttendanceList = ({ eventType }) => {
+  const [events, setEvents] = useState([]);
+  const userId = useSelector((state) => state.user.userId);
+  const clubId = useSelector((state) => state.user.clubId);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      let response;
+      if (eventType === "trening") {
+        response = axiosInstance.get(
+          `/trainings/club/${clubId}/user/${userId}`
+        );
+      } else {
+        response = axiosInstance.get(`/events/club/${clubId}/user/${userId}`);
+      }
+
+      setEvents(response.data);
+    } catch (error) {}
+  };
+
   return (
-    <div className="h-[500px] py-4">
+    <div className="h-[500px] py-4 w-96">
       <div className="overflow-x-auto">
-        <table className="table h-[450px]">
+        <table className="table h-[450px] table-xs sm:table-sm md:table-md lg:table-lg table-pin-rows">
           {/* head */}
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
               <th>Tytuł</th>
-              <th>Opis</th>
               <th>Data rozpoczęcia</th>
               <th>Data zakończenia</th>
               <th></th>
@@ -23,46 +42,22 @@ const AttendanceList = () => {
           <tbody>
             {/* row 1 */}
             <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
               <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Hart Hagerty</div>
-                    <div className="text-sm opacity-50">United States</div>
-                  </div>
-                </div>
+                <strong>title</strong>
               </td>
-              <td>
-                Zemlak, Daniel and Leannon
-                <br />
-                <span className="badge badge-ghost badge-sm">
-                  Desktop Support Technician
-                </span>
-              </td>
-              <td>Purple</td>
+              <td>Początek</td>
+              <td>Koniec</td>
               <th>
-                <button className="btn btn-ghost btn-xs">details</button>
+                <button className="btn btn-secondary btn-sm">
+                  Zaznacz obecność
+                </button>
               </th>
             </tr>
           </tbody>
           {/* foot */}
           <tfoot>
             <tr>
-              <th></th>
               <th>Tytuł</th>
-              <th>Opis</th>
               <th>Data rozpoczęcia</th>
               <th>Data zakończenia</th>
               <th></th>

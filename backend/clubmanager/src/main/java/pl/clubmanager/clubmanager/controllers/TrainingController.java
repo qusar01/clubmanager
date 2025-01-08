@@ -1,5 +1,6 @@
 package pl.clubmanager.clubmanager.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class TrainingController {
     }
 
     @PostMapping
-    public TrainingDto createTraining(@RequestBody TrainingDto trainingDto) {
+    public TrainingDto createTraining(@Valid @RequestBody TrainingDto trainingDto) {
         TrainingEntity trainingEntity = trainingMapper.mapFrom(trainingDto);
         TrainingEntity savedTrainingEntity = trainingService.save(trainingEntity);
         return trainingMapper.mapTo(savedTrainingEntity);

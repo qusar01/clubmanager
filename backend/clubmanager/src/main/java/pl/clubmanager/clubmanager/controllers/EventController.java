@@ -1,5 +1,6 @@
 package pl.clubmanager.clubmanager.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class EventController {
     }
 
     @PostMapping
-    public EventDto createEvent(@RequestBody EventDto eventDto) {
+    public EventDto createEvent(@Valid @RequestBody EventDto eventDto) {
         EventEntity eventEntity = eventMapper.mapFrom(eventDto);
         EventEntity savedEventEntity = eventService.save(eventEntity);
         return eventMapper.mapTo(savedEventEntity);

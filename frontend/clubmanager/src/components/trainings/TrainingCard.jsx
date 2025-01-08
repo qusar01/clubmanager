@@ -61,7 +61,7 @@ const TrainingCard = () => {
           <MyCalendar events={events} onSelectEvent={selectEvent} />
         )}
 
-        {isAttendance && <AttendanceList />}
+        {isAttendance && <AttendanceList eventType="trening" />}
 
         <AddEventModal
           eventType="trening"
@@ -85,14 +85,15 @@ const TrainingCard = () => {
           </button>
         )}
 
-        {isAttendance ? (
+        {isAttendance && role === "COMPETITOR" && (
           <button
             className="btn btn-primary"
             onClick={() => setIsAttendance(false)}
           >
             Kalendarz
           </button>
-        ) : (
+        )}
+        {!isAttendance && role === "COMPETITOR" && (
           <button
             className="btn btn-secondary"
             onClick={() => setIsAttendance(true)}

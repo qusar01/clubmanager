@@ -19,8 +19,6 @@ public interface EventRepository extends CrudRepository<EventEntity, Long> {
 
     List<EventEntity> findByClubIdAndStartTimeBetween(Long clubId, Date start, Date end);
 
-    List<EventEntity> findByClubIdAndStartTimeBeforeAndEndTimeAfter(Long clubId, Date now);
-
     @Query("SELECT e FROM events e " +
             "WHERE e.club.id = :clubId " +
             "AND e.startTime <= :now " +

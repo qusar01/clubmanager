@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+
 @Service
 public class TrainingServiceImpl implements TrainingService {
 
@@ -22,9 +23,7 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public TrainingEntity save(TrainingEntity trainingEntity) {
-        return trainingRepository.save(trainingEntity);
-    }
+    public TrainingEntity save(TrainingEntity trainingEntity) { return trainingRepository.save(trainingEntity); }
 
     @Override
     public boolean isExists(Long id) {
