@@ -26,6 +26,7 @@ const messages = {
   today: "Dzisiaj",
   agenda: "Lista",
   noEventsInRange: "Brak wydarzeń w tym zakresie.",
+  showMore: (count) => `+${count} więcej`,
 };
 
 const MyCalendar = ({ events, onSelectEvent }) => {

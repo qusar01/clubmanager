@@ -16,6 +16,7 @@ const TrainingCard = () => {
   const [isAttendance, setIsAttendance] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showSuccessDelete, setShowSuccessDelete] = useState(false);
+  const [showSuccessAttendance, setShowSuccessAttendance] = useState(false);
 
   useEffect(() => {
     fetchTrainings();
@@ -61,7 +62,12 @@ const TrainingCard = () => {
           <MyCalendar events={events} onSelectEvent={selectEvent} />
         )}
 
-        {isAttendance && <AttendanceList eventType="trening" />}
+        {isAttendance && (
+          <AttendanceList
+            eventType="trening"
+            setShowSuccessAttendance={setShowSuccessAttendance}
+          />
+        )}
 
         <AddEventModal
           eventType="trening"
@@ -114,6 +120,13 @@ const TrainingCard = () => {
             message="Pomyślnie usunięto trening."
             type="success"
             onClose={() => setShowSuccessDelete(false)}
+          />
+        )}
+        {showSuccessAttendance && (
+          <Toast
+            message="Pomyślnie zaznaczono obecność."
+            type="success"
+            onClose={() => setShowSuccessAttendance(false)}
           />
         )}
       </div>

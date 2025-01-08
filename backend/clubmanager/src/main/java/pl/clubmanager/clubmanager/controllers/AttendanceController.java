@@ -9,7 +9,7 @@ import pl.clubmanager.clubmanager.domain.entities.AttendanceEntity;
 import pl.clubmanager.clubmanager.mappers.Mapper;
 import pl.clubmanager.clubmanager.services.AttendanceService;
 
-@RequestMapping("/attendance")
+@RequestMapping("/attendances")
 @RestController
 public class AttendanceController {
 
