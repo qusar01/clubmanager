@@ -90,36 +90,4 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendancesFromTrainings;
     }
 
-    @Override
-    public List<ClubRankingDto> getRankngForClub(Long clubId) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        Date start = calendar.getTime();
-
-        calendar.add(Calendar.MONTH, 1);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
-        Date end = calendar.getTime();
-
-        List<Object[]> results = attendanceRepository.getRankingForClub(clubId, start, end);
-
-        List<ClubRankingDto> ranking = new ArrayList<>();
-        for (Object[] row : results) {
-            Long memberId = (Long) row[0];
-            String firstName = (String) row[1];
-            String lastName = (String) row[2];
-            Long attendanceCount = (Long) row[3];
-            ranking.add(new ClubRankingDto(memberId, firstName, lastName, attendanceCount));
-        }
-        return ranking;
-    }
 }

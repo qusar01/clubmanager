@@ -24,5 +24,4 @@ public interface AttendanceService {
 
     List<AttendanceEntity> getAttendancesForUserInCurrentMonth(Long userId);
 
-    List<ClubRankingDto> getRankngForClub(Long clubId);
 }

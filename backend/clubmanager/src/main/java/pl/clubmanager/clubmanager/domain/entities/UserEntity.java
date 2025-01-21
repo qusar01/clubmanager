@@ -8,7 +8,6 @@ import pl.clubmanager.clubmanager.enums.Role;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -45,6 +44,9 @@ public class UserEntity implements UserDetails {
 
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private ClubEntity club;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AttendanceEntity> attendances;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

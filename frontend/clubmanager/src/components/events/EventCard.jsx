@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import MyCalendar from "../calendar/MyCalendar";
-import axiosInstance from "../../config/axiosInstance";
-import { useUserContext } from "../../context/UserContext";
 import { useSelector } from "react-redux";
-import EventInfoModal from "../modals/EventInfoModal";
+import { useUserContext } from "../../context/UserContext";
+import axiosInstance from "../../config/axiosInstance";
+import MyCalendar from "../calendar/MyCalendar";
+import AttendanceList from "../attendances/AttendanceList";
 import AddEventModal from "../modals/AddEventModal";
 import Toast from "../Toast";
-import AttendanceList from "../attendances/AttendanceList";
+import EventInfoModal from "../modals/EventInfoModal";
 
-const TrainingCard = () => {
+const EventCard = () => {
   const clubId = useSelector((state) => state.user.clubId);
   const { role, loading } = useUserContext();
   const [events, setEvents] = useState([]);
@@ -19,7 +19,7 @@ const TrainingCard = () => {
   const [showSuccessAttendance, setShowSuccessAttendance] = useState(false);
 
   useEffect(() => {
-    fetchTrainings();
+    fetchEvents();
   }, []);
 
   useEffect(() => {
@@ -29,17 +29,18 @@ const TrainingCard = () => {
     }
   }, [selectedEvent]);
 
-  const fetchTrainings = async () => {
+  const fetchEvents = async () => {
     try {
-      const response = await axiosInstance.get(`/trainings/club/${clubId}`);
-      const formattedEvents = response.data.map((training) => ({
-        id: training.id,
-        title: training.title,
-        startTime: new Date(training.startTime),
-        endTime: new Date(training.endTime),
-        description: training.description,
-        clubId: training.clubId,
-        coachId: training.coachId,
+      const response = await axiosInstance.get(`/events/club/${clubId}`);
+      const formattedEvents = response.data.map((event) => ({
+        id: event.id,
+        title: event.title,
+        startTime: new Date(event.startTime),
+        endTime: new Date(event.endTime),
+        location: event.location,
+        description: event.description,
+        clubId: event.clubId,
+        coachId: event.coachId,
       }));
       setEvents(formattedEvents);
     } catch (error) {
@@ -60,7 +61,7 @@ const TrainingCard = () => {
     <div className="card bg-base-100 shadow-2xl w-full md:w-3/4 max-w-[1000px] animate-in fade-in zoom-in mt-16">
       <div className="card-body items-center justify-center w-full">
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center mx-auto pt-4">
-          <span className="font-bold">Treningi</span>
+          <span className="font-bold">Wydarzenia</span>
         </div>
         {events && !isAttendance && (
           <MyCalendar events={events} onSelectEvent={selectEvent} />
@@ -68,19 +69,19 @@ const TrainingCard = () => {
 
         {isAttendance && (
           <AttendanceList
-            eventType="trening"
+            eventType="wydarzenie"
             setShowSuccessAttendance={setShowSuccessAttendance}
           />
         )}
 
         <AddEventModal
-          eventType="trening"
+          eventType="wydarzenie"
           setShowSuccess={setShowSuccess}
           setEvents={setEvents}
         />
         {showSuccess && (
           <Toast
-            message="Pomyślnie dodano trening."
+            message="Pomyślnie dodano wydarzenie."
             type="success"
             onClose={() => setShowSuccess(false)}
           />
@@ -91,7 +92,7 @@ const TrainingCard = () => {
             className="btn btn-secondary"
             onClick={() => document.getElementById("add_event").showModal()}
           >
-            Dodaj trening
+            Dodaj wydarzenie
           </button>
         )}
 
@@ -114,14 +115,14 @@ const TrainingCard = () => {
 
         <EventInfoModal
           event={selectedEvent}
-          eventType="trening"
+          eventType="wydarzenie"
           setEvents={setEvents}
           onClose={closeModal}
           setShowSuccessDelete={setShowSuccessDelete}
         />
         {showSuccessDelete && (
           <Toast
-            message="Pomyślnie usunięto trening."
+            message="Pomyślnie usunięto wydarzenie."
             type="success"
             onClose={() => setShowSuccessDelete(false)}
           />
@@ -138,4 +139,4 @@ const TrainingCard = () => {
   );
 };
 
-export default TrainingCard;
+export default EventCard;

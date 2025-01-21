@@ -1,8 +1,10 @@
 package pl.clubmanager.clubmanager.services;
 
 
+import pl.clubmanager.clubmanager.domain.dto.ClubRankingDto;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +20,6 @@ public interface UserService {
     UserEntity partialUpdate(Long id, UserEntity userEntity);
 
     void delete(Long id);
+
+    List<ClubRankingDto> getRankingForClub(Long clubId);
 }

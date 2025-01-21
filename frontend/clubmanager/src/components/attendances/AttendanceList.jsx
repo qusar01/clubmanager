@@ -109,7 +109,9 @@ const AttendanceList = ({ eventType, setShowSuccessAttendance }) => {
     </div>
   ) : (
     <div className="h-[500px] py-4 w-96 sm:w-auto flex flex-col items-center justify-center">
-      <span className="text-xl">Brak aktywnych treningów</span>
+      <span className="text-xl">
+        Brak aktywnych {eventType === "trening" ? "treningów" : "wydarzeń"}
+      </span>
     </div>
   );
 };

@@ -21,6 +21,8 @@ import MembersPage from "./pages/MembersPage";
 import MemberDetailsPage from "./pages/MemberDetailsPage";
 import InvitationPage from "./pages/InvitationPage";
 import TrainingsPage from "./pages/TrainingsPage";
+import EventsPage from "./pages/EventsPage";
+import StatsPage from "./pages/StatsPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -33,6 +35,8 @@ const App = () => {
             <Route path="/members" element={<MembersPage />} />
             <Route path="/members/:memberId" element={<MemberDetailsPage />} />
             <Route path="/trainings" element={<TrainingsPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/stats" element={<StatsPage />} />
           </Route>
         </Route>
 

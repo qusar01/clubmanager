@@ -25,6 +25,8 @@ public class StatsController {
 
     private AttendanceService attendanceService;
 
+    private UserService userService;
+
     private Mapper<ClubEntity, ClubDto> clubMapper;
 
     private Mapper<TrainingEntity, TrainingDto> trainingMapper;
@@ -33,15 +35,19 @@ public class StatsController {
 
     private Mapper<AttendanceEntity, AttendanceDto> attendanceMapper;
 
-    public StatsController(ClubService clubService, TrainingService trainingService, EventService eventService, AttendanceService attendanceService, Mapper<ClubEntity, ClubDto> clubMapper, Mapper<TrainingEntity, TrainingDto> trainingMapper, Mapper<EventEntity, EventDto> eventMapper, Mapper<AttendanceEntity, AttendanceDto> attendanceMapper) {
+    private Mapper<UserEntity, UserDto> userMapper;
+
+    public StatsController(ClubService clubService, TrainingService trainingService, EventService eventService, AttendanceService attendanceService, UserService userService, Mapper<ClubEntity, ClubDto> clubMapper, Mapper<TrainingEntity, TrainingDto> trainingMapper, Mapper<EventEntity, EventDto> eventMapper, Mapper<AttendanceEntity, AttendanceDto> attendanceMapper, Mapper<UserEntity, UserDto> userMapper) {
         this.clubService = clubService;
         this.trainingService = trainingService;
         this.eventService = eventService;
         this.attendanceService = attendanceService;
+        this.userService = userService;
         this.clubMapper = clubMapper;
         this.trainingMapper = trainingMapper;
         this.eventMapper = eventMapper;
         this.attendanceMapper = attendanceMapper;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/user/{id}")
@@ -66,7 +72,7 @@ public class StatsController {
 
     @GetMapping("/club/{id}")
     public List<ClubRankingDto> getRankingForClub(@PathVariable Long id) {
-        return attendanceService.getRankngForClub(id);
+        return userService.getRankingForClub(id);
     }
 
 }
