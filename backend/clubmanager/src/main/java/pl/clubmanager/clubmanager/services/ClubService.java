@@ -1,5 +1,6 @@
 package pl.clubmanager.clubmanager.services;
 
+import pl.clubmanager.clubmanager.domain.dto.ClubRankingDto;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 
@@ -26,4 +27,6 @@ public interface ClubService {
     List<UserEntity> addMember(Long clubId, Long id);
 
     List<UserEntity> removeMember(Long id);
+
+    List<ClubRankingDto> getRankingForClub(Long clubId);
 }

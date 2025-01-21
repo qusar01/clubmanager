@@ -20,6 +20,4 @@ public interface UserService {
     UserEntity partialUpdate(Long id, UserEntity userEntity);
 
     void delete(Long id);
-
-    List<ClubRankingDto> getRankingForClub(Long clubId);
 }

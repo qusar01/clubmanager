@@ -1,6 +1,7 @@
 package pl.clubmanager.clubmanager.services.impl;
 
 import org.springframework.stereotype.Service;
+import pl.clubmanager.clubmanager.domain.dto.ClubRankingDto;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNameException;
@@ -10,8 +11,7 @@ import pl.clubmanager.clubmanager.repositories.ClubRepository;
 import pl.clubmanager.clubmanager.repositories.UserRepository;
 import pl.clubmanager.clubmanager.services.ClubService;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -123,5 +123,38 @@ public class ClubServiceImpl implements ClubService {
         club.getUsers().remove(user);
         clubRepository.save(club);
         return club.getUsers();
+    }
+
+    @Override
+    public List<ClubRankingDto> getRankingForClub(Long clubId) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date start = calendar.getTime();
+
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date end = calendar.getTime();
+
+        List<Object[]> results = clubRepository.getRankingForClub(clubId, start, end);
+
+        List<ClubRankingDto> ranking = new ArrayList<>();
+        for (Object[] row : results) {
+            Long memberId = (Long) row[0];
+            String firstName = (String) row[1];
+            String lastName = (String) row[2];
+            Long attendanceCount = (Long) row[3];
+            ranking.add(new ClubRankingDto(memberId, firstName, lastName, attendanceCount));
+        }
+        return ranking;
     }
 }

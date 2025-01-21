@@ -72,7 +72,7 @@ public class StatsController {
 
     @GetMapping("/club/{id}")
     public List<ClubRankingDto> getRankingForClub(@PathVariable Long id) {
-        return userService.getRankingForClub(id);
+        return clubService.getRankingForClub(id);
     }
 
 }

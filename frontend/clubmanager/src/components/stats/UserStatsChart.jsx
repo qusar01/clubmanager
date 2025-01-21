@@ -1,10 +1,10 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-const COLORS = ["#FCD34D", "#3F3F46"];
-
 const UserStatsChart = ({ attendances, totalEvents }) => {
   const percentage = ((attendances / totalEvents) * 100).toFixed(1);
+
+  const COLORS = ["oklch(var(--p))", "oklch(var(--n))"];
 
   const data = [
     { name: "Obecności", value: attendances },
@@ -27,13 +27,14 @@ const UserStatsChart = ({ attendances, totalEvents }) => {
             cy="50%"
             innerRadius={90}
             outerRadius={120}
-            fill="#8884d8"
+            fill="oklch(var(--p))"
             paddingAngle={5}
           >
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}
+                strokeWidth={0}
               />
             ))}
           </Pie>
@@ -44,7 +45,7 @@ const UserStatsChart = ({ attendances, totalEvents }) => {
             dominantBaseline="middle"
             fontSize={24}
             fontWeight="bold"
-            fill="#333"
+            fill="oklch(var(--bc))"
           >
             {`${percentage}%`}
           </text>

@@ -17,20 +17,4 @@ public interface UserRepository extends CrudRepository<UserEntity, Long>{
 
     Optional<UserEntity> findByVerificationCode(String verificationCode);
 
-    @Query("""
-       SELECT u.id, u.firstName, u.lastName, COUNT(a)
-       FROM UserEntity u
-       LEFT JOIN u.attendances a
-       LEFT JOIN a.training t
-       LEFT JOIN a.event e
-       WHERE 
-           u.role = 'COMPETITOR' AND
-           ((t.club.id = :clubId OR e.club.id = :clubId) AND
-           (t.startTime BETWEEN :start AND :end OR e.startTime BETWEEN :start AND :end) 
-           OR a.id IS NULL)
-       GROUP BY u.id, u.firstName, u.lastName
-       ORDER BY COUNT(a) DESC
-    """)
-    List<Object[]> getRankingForClub(@Param("clubId") Long clubId, @Param("start") Date start, @Param("end") Date end);
-
 }
