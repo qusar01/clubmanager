@@ -1,9 +1,15 @@
 import React from "react";
 
-const ClubRanking = ({ ranking }) => {
+const ClubRanking = ({ ranking, isComp }) => {
   return (
-    <div className="w-full md:w-1/3 text-center h-[300px] flex flex-col justify-between">
-      <span className="prose font-bold">Ranking według obecności</span>
+    <div
+      className={`w-full md:w-1/3 text-center h-[300px] flex flex-col justify-between ${
+        isComp ? "" : "md:w-4/5 items-center"
+      }`}
+    >
+      <span className="prose font-bold text-base-content">
+        Ranking według obecności
+      </span>
       <div className="overflow-x-auto w-full">
         <table className="table table-zebra">
           {/* head */}

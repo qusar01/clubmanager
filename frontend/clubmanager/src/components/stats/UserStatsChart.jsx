@@ -16,7 +16,9 @@ const UserStatsChart = ({ attendances, totalEvents }) => {
       style={{ height: 300, pointerEvents: "none" }}
       className="text-center my-4 prose w-full md:w-1/3"
     >
-      <span className="font-bold">Obecności w bieżącym miesiącu</span>
+      <span className="font-bold text-base-content">
+        Obecności w bieżącym miesiącu
+      </span>
       <ResponsiveContainer className="">
         <PieChart>
           <Pie
