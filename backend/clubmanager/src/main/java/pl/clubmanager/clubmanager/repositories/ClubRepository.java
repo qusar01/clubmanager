@@ -18,7 +18,13 @@ public interface ClubRepository extends CrudRepository<ClubEntity, Long> {
 
     Optional<ClubEntity> findByPhoneNumber(String phoneNumber);
 
-    @Query("SELECT c FROM ClubEntity c JOIN c.users u WHERE u.id = :userId")
+    @Query("""
+       SELECT c FROM ClubEntity c 
+       WHERE c.owner.id = :userId 
+       OR EXISTS (
+           SELECT 1 FROM c.users u WHERE u.id = :userId
+       )
+       """)
     Optional<ClubEntity> findByUserId(@Param("userId") Long userId);
 
     @Query("SELECT c.users FROM ClubEntity c WHERE c.id = :clubId")

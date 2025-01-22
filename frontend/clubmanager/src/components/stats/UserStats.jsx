@@ -25,6 +25,7 @@ const UserStats = () => {
       const response = await axiosInstance.get(`/stats/user/${userId}`);
       setAttendances(response.data.attendances);
       setTotalEvents(response.data.events + response.data.trainings);
+      console.log("asd: ", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +42,7 @@ const UserStats = () => {
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-full lg:w-3/4 max-w-[1000px] animate-in fade-in zoom-in mt-16">
+    <div className="card bg-base-100 shadow-2xl w-full lg:w-3/4 max-w-[1000px] animate-in fade-in zoom-in mt-16 sm:py-12">
       <div className="card-body items-center justify-center w-full">
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center mx-auto pt-4">
           <span className="font-bold">Statystyki</span>
@@ -56,6 +57,7 @@ const UserStats = () => {
           <ClubRanking
             ranking={ranking}
             isComp={role === "COMPETITOR" ? true : false}
+            totalEvents={totalEvents}
           />
         </div>
       </div>

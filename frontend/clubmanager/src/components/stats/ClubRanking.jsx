@@ -1,6 +1,6 @@
 import React from "react";
 
-const ClubRanking = ({ ranking, isComp }) => {
+const ClubRanking = ({ ranking, isComp, totalEvents }) => {
   return (
     <div
       className={`w-full md:w-1/3 text-center h-[300px] flex flex-col justify-between ${
@@ -18,6 +18,7 @@ const ClubRanking = ({ ranking, isComp }) => {
               <th></th>
               <th>Imię</th>
               <th>Nazwisko</th>
+              {!isComp && <th></th>}
             </tr>
           </thead>
           <tbody>
@@ -26,6 +27,11 @@ const ClubRanking = ({ ranking, isComp }) => {
                 <th>{index + 1}</th>
                 <td>{entry.firstName}</td>
                 <td>{entry.lastName}</td>
+                {!isComp && (
+                  <td>
+                    {entry.attendanceCount}/{totalEvents}
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
