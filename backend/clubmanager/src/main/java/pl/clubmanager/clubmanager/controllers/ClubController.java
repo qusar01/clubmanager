@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.clubmanager.clubmanager.domain.dto.ClubDto;
+import pl.clubmanager.clubmanager.domain.dto.PaymentSettingsDTO;
 import pl.clubmanager.clubmanager.domain.dto.UserDto;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
@@ -99,4 +100,11 @@ public class ClubController {
         List<UserEntity> users = clubService.findUsersByClubId(clubId);
         return users.stream().map(userMapper::mapTo).collect(Collectors.toList());
     }
+
+    @PutMapping(path = "/{clubId}/payment-settings")
+    public ResponseEntity<String> updatePaymentSettings(@PathVariable("clubId") Long clubId, @RequestBody PaymentSettingsDTO paymentSettingsDTO) {
+        clubService.updatePaymentSettings(clubId, paymentSettingsDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

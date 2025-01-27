@@ -35,4 +35,8 @@ public class ClubEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @OneToMany(cascade = CascadeType.ALL)
     private List<UserEntity> users;
+
+    private Integer membershipFee = 50;
+
+    private Boolean isPaymentEnabled = false;
 }

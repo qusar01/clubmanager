@@ -2,6 +2,7 @@ package pl.clubmanager.clubmanager.services.impl;
 
 import org.springframework.stereotype.Service;
 import pl.clubmanager.clubmanager.domain.dto.ClubRankingDto;
+import pl.clubmanager.clubmanager.domain.dto.PaymentSettingsDTO;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
 import pl.clubmanager.clubmanager.exceptions.InvalidClubNameException;
@@ -156,5 +157,15 @@ public class ClubServiceImpl implements ClubService {
             ranking.add(new ClubRankingDto(memberId, firstName, lastName, attendanceCount));
         }
         return ranking;
+    }
+
+    @Override
+    public void updatePaymentSettings(Long clubId, PaymentSettingsDTO paymentSettingsDTO) {
+        ClubEntity club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new RuntimeException("Club not found"));
+
+        club.setMembershipFee(paymentSettingsDTO.getMembershipFee());
+        club.setIsPaymentEnabled(paymentSettingsDTO.isPaymentEnabled());
+        clubRepository.save(club);
     }
 }
