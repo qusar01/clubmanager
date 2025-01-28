@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.clubmanager.clubmanager.domain.entities.ClubEntity;
 import pl.clubmanager.clubmanager.domain.entities.PaymentEntity;
 import pl.clubmanager.clubmanager.domain.entities.UserEntity;
+import pl.clubmanager.clubmanager.enums.Role;
 import pl.clubmanager.clubmanager.enums.Status;
 import pl.clubmanager.clubmanager.repositories.ClubRepository;
 import pl.clubmanager.clubmanager.repositories.PaymentRepository;
@@ -63,19 +64,19 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Optional<PaymentEntity> findByClubId(Long clubId) {
+    public List<PaymentEntity> findByClubId(Long clubId) {
         return paymentRepository.findByClubId(clubId);
     }
 
     @Override
-    public Optional<PaymentEntity> findByUserId(Long userId) {
+    public List<PaymentEntity> findByUserId(Long userId) {
         return paymentRepository.findByUserId(userId);
     }
 
 
     @Override
     @Transactional
-    @Scheduled(cron = "0 13,14,15 * * * * ")
+    @Scheduled(cron = "0 40 * * * * ")
     public void generateMonthlyPayments() {
         System.out.println("Scheduled task is running...");
 
@@ -96,20 +97,21 @@ public class PaymentServiceImpl implements PaymentService {
                 Integer membershipFee = club.getMembershipFee();
 
                 for (UserEntity member : members) {
-                    PaymentEntity payment = PaymentEntity.builder()
-                            .club(club)
-                            .user(member)
-                            .amount(membershipFee)
-                            .status(Status.PENDING)
-                            .paymentDate(null)
-                            .dueDate(YearMonth.now().atEndOfMonth())
-                            .paymentYear(String.valueOf(LocalDate.now().getYear()))
-                            .paymentMonth(LocalDate.now().format(DateTimeFormatter.ofPattern(
-                                    "LLLL", new Locale("pl", "PL"))))
-                            .paymentMethod(null)
-                            .paymentId(null)
-                            .build();
-                    paymentRepository.save(payment);
+                    if(member.getRole().equals(Role.COMPETITOR)) {
+                        PaymentEntity payment = PaymentEntity.builder()
+                                .club(club)
+                                .user(member)
+                                .amount(membershipFee)
+                                .status(Status.PENDING)
+                                .paymentDate(null)
+                                .dueDate(YearMonth.now().atEndOfMonth())
+                                .paymentYear(String.valueOf(LocalDate.now().getYear()))
+                                .paymentMonth(LocalDate.now().format(DateTimeFormatter.ofPattern(
+                                        "LLLL", new Locale("pl", "PL"))))
+                                .paymentId(null)
+                                .build();
+                        paymentRepository.save(payment);
+                    }
                 }
              }
 

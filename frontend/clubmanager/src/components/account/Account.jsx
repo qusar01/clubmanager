@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import UserDetails from "./UserDetails";
 import ClubDetails from "./ClubDetails";
+import PaymentDetails from "./PaymentDetails";
 
 const Account = ({ userId, clubId, role }) => {
   const [activeButton, setActiveButton] = useState("account");
@@ -12,10 +13,12 @@ const Account = ({ userId, clubId, role }) => {
         <div className="text-xl lg:text-2xl hover:bg-transparent w-3/4 pointer-events-none flex justify-center">
           <span className="font-bold">Ustawienia</span>
         </div>
-        {activeButton === "account" ? (
+        {activeButton === "account" && (
           <UserDetails userId={userId} role={role} />
-        ) : (
-          <ClubDetails clubId={clubId} role={role} />
+        )}
+        {activeButton === "club" && <ClubDetails clubId={clubId} role={role} />}
+        {activeButton === "payment" && (
+          <PaymentDetails clubId={clubId} role={role} />
         )}
         <div className="join">
           <button
@@ -34,6 +37,18 @@ const Account = ({ userId, clubId, role }) => {
           >
             Mój klub
           </button>
+          {role === "OWNER" ? (
+            <button
+              className={`join-item btn w-28 ${
+                activeButton === "payment" ? "btn-active" : ""
+              }`}
+              onClick={() => setActiveButton("payment")}
+            >
+              Płatności{" "}
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

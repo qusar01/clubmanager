@@ -36,7 +36,7 @@ public class ClubEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<UserEntity> users;
 
-    private Integer membershipFee = 50;
+    private Integer membershipFee;
 
     private Boolean isPaymentEnabled = false;
 }

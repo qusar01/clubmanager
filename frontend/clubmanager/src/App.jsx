@@ -23,6 +23,9 @@ import InvitationPage from "./pages/InvitationPage";
 import TrainingsPage from "./pages/TrainingsPage";
 import EventsPage from "./pages/EventsPage";
 import StatsPage from "./pages/StatsPage";
+import PaymentsPage from "./pages/PaymentsPage";
+import PaymentSuccess from "./components/payments/PaymentSuccess";
+import PaymentCancel from "./components/payments/PaymentCancel";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -37,6 +40,9 @@ const App = () => {
             <Route path="/trainings" element={<TrainingsPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/stats" element={<StatsPage />} />
+            <Route path="/payments" element={<PaymentsPage />} />
+            <Route path="/success" element={<PaymentSuccess />} />
+            <Route path="/cancel" element={<PaymentCancel />} />
           </Route>
         </Route>
 

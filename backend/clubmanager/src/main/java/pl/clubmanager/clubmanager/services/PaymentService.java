@@ -18,9 +18,9 @@ public interface PaymentService {
 
     Optional<PaymentEntity> findById(Long id);
 
-    Optional<PaymentEntity> findByClubId(Long clubId);
+    List<PaymentEntity> findByClubId(Long clubId);
 
-    Optional<PaymentEntity> findByUserId(Long userId);
+    List<PaymentEntity> findByUserId(Long userId);
 
     void generateMonthlyPayments();
 }

@@ -18,7 +18,7 @@ const ClubRanking = ({ ranking, isComp, totalEvents }) => {
               <th></th>
               <th>Imię</th>
               <th>Nazwisko</th>
-              {!isComp && <th></th>}
+              {!isComp && <th>Obecności</th>}
             </tr>
           </thead>
           <tbody>

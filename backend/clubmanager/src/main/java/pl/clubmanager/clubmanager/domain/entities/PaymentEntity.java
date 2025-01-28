@@ -43,7 +43,7 @@ public class PaymentEntity {
 
     private String paymentMonth;
 
-    private String paymentMethod;
-
     private String paymentId;
+
+    private String sessionId;
 }

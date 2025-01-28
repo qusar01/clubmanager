@@ -7,5 +7,5 @@ public class PaymentSettingsDTO {
 
     private Integer membershipFee;
 
-    private boolean isPaymentEnabled;
+    private Boolean isPaymentEnabled;
 }

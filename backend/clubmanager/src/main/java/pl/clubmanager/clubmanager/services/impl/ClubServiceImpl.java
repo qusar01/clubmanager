@@ -165,7 +165,7 @@ public class ClubServiceImpl implements ClubService {
                 .orElseThrow(() -> new RuntimeException("Club not found"));
 
         club.setMembershipFee(paymentSettingsDTO.getMembershipFee());
-        club.setIsPaymentEnabled(paymentSettingsDTO.isPaymentEnabled());
+        club.setIsPaymentEnabled(paymentSettingsDTO.getIsPaymentEnabled());
         clubRepository.save(club);
     }
 }

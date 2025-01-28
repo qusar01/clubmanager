@@ -78,7 +78,10 @@ const OwnerDashboard = () => {
         </div>
       </Link>
 
-      <Link className="btn btn-ghost h-32 md:h-80 w-96 hover:bg-transparent">
+      <Link
+        to="/payments"
+        className="btn btn-ghost h-32 md:h-80 w-96 hover:bg-transparent"
+      >
         <div className="card bg-base-100 shadow-2xl h-32 md:h-80 w-full animate-in fade-in zoom-in">
           <div className="card-body items-center justify-center">
             <div className="text-xl md:text-2xl hover:bg-transparent w-full pointer-events-none flex justify-center md:block">

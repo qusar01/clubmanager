@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import SignInCard from "../components/auth/SignInCard";
 import axiosInstance from "../config/axiosInstance";
 import { useDispatch } from "react-redux";
-import { setClubId, setUserId } from "../redux/slices/userSlice";
+import {
+  setClubId,
+  setIsPaymentEnabled,
+  setUserId,
+} from "../redux/slices/userSlice";
 
 const Login = () => {
   const [errors, setErrors] = useState({});
@@ -29,12 +33,17 @@ const Login = () => {
         const currUser = await axiosInstance.get(`/users/me`);
         dispatch(setUserId(currUser.data.id));
         if (currUser.data.clubId) {
+          const currClub = await axiosInstance.get(
+            `/clubs/${currUser.data.clubId}`
+          );
           dispatch(setClubId(currUser.data.clubId));
+          dispatch(setIsPaymentEnabled(currClub.data.isPaymentEnabled));
         } else {
           const currClub = await axiosInstance.get(
             `/clubs/users/${currUser.data.id}`
           );
           dispatch(setClubId(currClub.data.id));
+          dispatch(setIsPaymentEnabled(currClub.data.isPaymentEnabled));
         }
       }
       setLoading(false);

@@ -29,6 +29,7 @@ const ClubDetails = ({ clubId, role }) => {
       setClubName(currClub.data.clubName);
       setClubNip(currClub.data.clubNip);
       setPhoneNumber(currClub.data.phoneNumber);
+      console.log(currClub.data);
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +87,7 @@ const ClubDetails = ({ clubId, role }) => {
           await editField(e, "clubNip", tempValue);
           setClubNip(tempValue);
           break;
-        case "email":
+        case "phoneNumber":
           await editField(e, "phoneNumber", tempValue);
           setPhoneNumber(tempValue);
           break;

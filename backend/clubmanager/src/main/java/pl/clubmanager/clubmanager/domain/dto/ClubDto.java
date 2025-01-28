@@ -39,4 +39,8 @@ public class ClubDto {
 
         private UserDto owner;
 
+        private Integer membershipFee;
+
+        private Boolean isPaymentEnabled;
+
 }
