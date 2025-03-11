@@ -80,4 +80,4 @@ The frontend application will run on port `3000` by default.
 Oskar Baranowski
 
 ## License
-This project is available under the MIT license.
+This project is available under the GNU General Public License v3.0.
