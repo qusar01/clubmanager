@@ -81,8 +81,8 @@ const InviteMemberModal = ({ setShowSuccess }) => {
             </select>
             <span className="prose">
               <strong>Uwaga: </strong>
-              Zaproszenia mają ważność przez . Przez ten czas inne kluby nie
-              mogą zaprosić użytkownika o danym adresie email.
+              Zaproszenia mają ważność przez 6 godzin. Przez ten czas inne kluby
+              nie mogą zaprosić użytkownika o danym adresie email.
             </span>
           </div>
 

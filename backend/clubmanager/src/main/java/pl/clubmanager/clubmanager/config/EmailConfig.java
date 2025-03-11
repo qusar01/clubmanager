@@ -29,6 +29,7 @@ public class EmailConfig {
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.debug", "true");
+        properties.put("mail.smtp.from", emailUsername);
 
         return mailSender;
     }

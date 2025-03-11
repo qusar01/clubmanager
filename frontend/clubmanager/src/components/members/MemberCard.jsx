@@ -50,7 +50,6 @@ const MemberCard = ({ member }) => {
             <Link to="/members" className="btn btn-primary">
               Wróć
             </Link>
-            <button className="btn btn-error">Usuń członka</button>
           </div>
         </div>
       ) : (

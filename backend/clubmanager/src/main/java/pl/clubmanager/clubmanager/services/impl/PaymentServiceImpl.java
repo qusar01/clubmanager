@@ -76,7 +76,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    @Scheduled(cron = "0 40 * * * * ")
+    @Scheduled(cron = "0 1 * * * * ")
     public void generateMonthlyPayments() {
         System.out.println("Scheduled task is running...");
 
